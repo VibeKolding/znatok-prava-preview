@@ -7,6 +7,29 @@
   // телефон и планшет (16.11): без ленты через страницу, без наклона карточек за пальцем, фон легче
   const phone = () => innerWidth <= 760;
   const touch = !matchMedia('(pointer:fine)').matches;
+  /* 18.11 ЛЁГКИЙ РЕЖИМ: сайт сам меряет, успевает ли устройство рисовать кадры. Если два отрезка подряд по ~1,5 с
+     кадры заметно опаздывают (слабый телефон, Safari, старый ноутбук) — включаем html.lite: без размытия под стеклом,
+     фон и лента рисуются реже, ряды не гнутся. На мощных устройствах всё как было. Проверка вручную: ?lite=1 */
+  const LITE = { on: false, cb: [] };
+  const goLite = () => { if (LITE.on) return; LITE.on = true; root.classList.add('lite'); LITE.cb.forEach(f => f()); };
+  window.__lite = LITE;
+  if (/[?&]lite=1/.test(location.search)) goLite();
+  else if (!/[?&]lite=0/.test(location.search)) (() => {
+    let fr = [], prev = 0, bad = 0;
+    const f = t => {
+      if (LITE.on) return;
+      if (prev && !document.hidden) { const d = t - prev; if (d < 250) fr.push(d); }
+      prev = t;
+      if (fr.length >= 90) {
+        fr.sort((a, b) => a - b);
+        bad = fr[72] > 24 ? bad + 1 : 0;      // 80 % кадров дольше 24 мс — меньше ~40 кадров в секунду
+        fr = [];
+        if (bad >= 2) return goLite();
+      }
+      requestAnimationFrame(f);
+    };
+    requestAnimationFrame(f);
+  })();
 
   /* ---------- меню-бургер на телефоне ---------- */
   const burger = document.getElementById('burger'), mnav = document.getElementById('mnav');
@@ -445,7 +468,7 @@
 
   // 17.11: на телефоне лента рисуется 30 раз в секунду вместо 60 — движение то же, нагрузка вдвое меньше
   let rbTick = 0;
-  gsap.ticker.add((t) => { time = t; if (RW < 40 && (rbTick++ & 1)) return; draw(); });
+  gsap.ticker.add((t) => { time = t; rbTick++; if (rbTick % (LITE.on ? 3 : RW < 40 ? 2 : 1)) return; draw(); });   // 18.11: в лёгком режиме 20 раз в секунду
   let rbT;
   const rebuild = () => { clearTimeout(rbT); rbT = setTimeout(buildRibbon, 120); };
   addEventListener('resize', rebuild);
@@ -754,21 +777,27 @@
     const secs = [...document.querySelectorAll('[data-bg]')].map(el => ({ el, c: el.dataset.bg.split(',').map(hex) }));
     let cur = secs[0].c.map(a => a.slice());
     // 16.11 ускорение: дымка мягкая, считать её в полном разрешении незачем — четверть точек, растягивает браузер
-    const size = () => { const k = phone() ? .55 : .7; cv.width = Math.round(innerWidth * k); cv.height = Math.round(innerHeight * k); gl.viewport(0, 0, cv.width, cv.height); };
+    const size = () => { const k = LITE.on ? .4 : phone() ? .55 : .7; cv.width = Math.round(innerWidth * k); cv.height = Math.round(innerHeight * k); gl.viewport(0, 0, cv.width, cv.height); };
     size(); addEventListener('resize', size);
     cv.classList.add('is-on');
     const heroEl = document.getElementById('hero');
-    let tick = 0;
+    let tick = 0, mc = 0, tops = null, heroB = 0;
+    LITE.cb.push(size);
     gsap.ticker.add(t => {
       // 16.11 ускорение: 30 кадров в секунду вместо 60 и ничего не считаем, пока первый экран закрывает весь фон
-      if ((tick++ & 1) || document.hidden) return;
+      if ((tick++ % (LITE.on ? 4 : 2)) || document.hidden) return;   // 18.11: 30 кадров в секунду, в лёгком режиме 15
       // глава, которая сейчас в середине экрана
-      const mid = innerHeight * .5;
+      // 18.11 ускорение: положение глав меряем 3 раза в секунду, а не каждый кадр — на телефоне замер каждый кадр
+      // заставлял пересчитывать раскладку всей страницы и давал рывки при прокрутке
+      if (!(mc++ % 10) || !tops) { tops = secs.map(s => s.el.getBoundingClientRect().top + scrollY); heroB = heroEl ? heroEl.getBoundingClientRect().bottom + scrollY : 0; }
+      const mid = innerHeight * .5 + scrollY;
       let target = secs[0].c;
-      for (const s of secs) { const r = s.el.getBoundingClientRect(); if (r.top <= mid) target = s.c; }
+      secs.forEach((s, i) => { if (tops[i] <= mid) target = s.c; });
       for (let i = 0; i < 3; i++) for (let j = 0; j < 3; j++) cur[i][j] += (target[i][j] - cur[i][j]) * .07;
       // дубль 118: цвета главы под первым экраном подтягиваем заранее, рисуем — только когда первый экран её открывает (шторка)
-      if (heroEl && heroEl.getBoundingClientRect().bottom >= innerHeight && !document.documentElement.classList.contains('tx-hero')) return;
+      // у границы первого экрана меряем точно каждый кадр, чтобы фон не опоздал открыться
+      if (heroEl && scrollY < heroB + 200) heroB = heroEl.getBoundingClientRect().bottom + scrollY;
+      if (heroEl && heroB - scrollY >= innerHeight && !document.documentElement.classList.contains('tx-hero')) return;
       gl.uniform2f(uR, cv.width, cv.height); gl.uniform1f(uT, t);
       gl.uniform1f(uDrift, window.scrollY * .00035);
       // 17.11: на узком вертикальном экране в кадр попадала одна большая складка — берём узор мельче, как на компьютере
@@ -939,7 +968,9 @@
       // transform и перебивал сдвиг — «5,0» дёргался. Этот ряд не гнём.
       .filter(r => !r.matches('.reviews__grid'));
     let skew = 0, last = 0, lastY = scrollY;
-    gsap.ticker.add(() => {
+    // 18.11 ускорение: на телефоне ряды не гнём — каждый кадр двигать ряды при прокрутке пальцем слишком дорого
+    if (!touch) gsap.ticker.add(() => {
+      if (LITE.on) { if (last) { last = 0; skew = 0; rows.forEach(r => { r.style.transform = ''; }); } return; }
       // на телефоне прокрутка родная, скорость считаем по сдвигу страницы
       const vel = lenis.velocity || (scrollY - lastY); lastY = scrollY;
       const v = gsap.utils.clamp(-3.2, 3.2, -vel * .09);
