@@ -301,7 +301,9 @@
              и встаёт ровно на своё место в главе, глава проявляется вокруг него, портрет подменяется настоящим без шва */
       const ov = el('div', 'tx-door1', document.body);
       const card = fig.cloneNode(true); card.className = 'tx-door1__arch'; card.removeAttribute('aria-hidden'); ov.appendChild(card);
-      [...card.querySelectorAll('img'), ...fig.querySelectorAll('img')].forEach(i => { i.loading = 'eager'; });
+      // портрет должен быть загружен до перехода; 18.11: но не в первые секунды — грузим после всей страницы, чтобы не отнимать скорость у заставки
+      const eager = () => [...card.querySelectorAll('img'), ...fig.querySelectorAll('img')].forEach(i => { i.loading = 'eager'; });
+      document.readyState === 'complete' ? eager() : addEventListener('load', eager, { once: true });
       const doors = el('div', 'tx-door2', document.body, '<div class="tx-door2__ring tx-door4__ring"></div><div class="tx-door2__leaf tx-door2__leaf--l"><i></i></div><div class="tx-door2__leaf tx-door2__leaf--r"><i></i></div>');
       const [ring, lL, lR] = doors.children;
       const arc = arcText(document.body);

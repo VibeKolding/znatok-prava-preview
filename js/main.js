@@ -35,12 +35,31 @@
   const burger = document.getElementById('burger'), mnav = document.getElementById('mnav');
   if (burger && mnav) {
     // 129: при открытом меню останавливаем и Lenis — иначе колесо/палец прокручивали страницу за меню
-    const setMenu = on => { root.classList.toggle('menu-open', on); burger.setAttribute('aria-expanded', on); if (window.__lenis) on ? window.__lenis.stop() : window.__lenis.start(); };
+    const setMenu = on => { root.classList.toggle('menu-open', on); burger.setAttribute('aria-expanded', on); if (window.__lenis) on ? window.__lenis.stop() : window.__lenis.start(); if (window.__norm) on ? window.__norm.disable() : window.__norm.enable(); };   // 18.11: под открытым меню страница не листается
     burger.addEventListener('click', () => setMenu(!root.classList.contains('menu-open')));
     mnav.addEventListener('click', e => { if (e.target.closest('a')) setMenu(false); });
     addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
   }
   gsap.registerPlugin(ScrollTrigger);
+  // 18.11 (Игорь: «на телефоне не все переходы плавные, на компьютере все»): на iPhone прокрутка пальцем идёт в отдельном потоке,
+  // а сцены переходов двигает скрипт — он отстаёт на кадр, и закреплённые сцены подрагивают. normalizeScroll (средство GSAP)
+  // переводит прокрутку туда же, где работают сцены. Только iPhone/iPad; проверка: ?ns=1 — включить везде, ?ns=0 — выключить.
+  const nsQ = new URLSearchParams(location.search).get('ns');
+  const iOS = /iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  if ((iOS && nsQ !== '0') || nsQ === '1') {
+    window.__norm = ScrollTrigger.normalizeScroll({ allowNestedScroll: true });
+    // normalizeScroll сам досылает «нажатие» после касания; если браузер прислал и своё — второе гасим, иначе ответ в «Вопросах»
+    // раскрывался и тут же закрывался, а меню открывалось и закрывалось (проверено в движке Safari)
+    let lastT = null, lastAt = 0;
+    document.addEventListener('click', e => {
+      if (e.target === lastT && e.timeStamp - lastAt < 400) { e.preventDefault(); e.stopImmediatePropagation(); return; }
+      lastT = e.target; lastAt = e.timeStamp;
+    }, true);
+  }
+  // на телефоне при прокрутке прячется и появляется адресная строка — высота окна чуть меняется. Холсты из-за этого не перестраиваем
+  // (это давало заминку посреди прокрутки), только если сменилась ширина или высота изменилась больше чем на четверть
+  const realResize = () => { let w = innerWidth, h = innerHeight;
+    return () => { const big = innerWidth !== w || Math.abs(innerHeight - h) > innerHeight * .25; if (big) { w = innerWidth; h = innerHeight; } return big; }; };
 
   /* ---------- плавная прокрутка ---------- */
   const lenis = new Lenis({ lerp: 0.085, wheelMultiplier: 0.9 });
@@ -80,10 +99,19 @@
   const intro = document.getElementById('intro');
   // для проверки на телефонах: ?y=1500 — после заставки страница сама прокрутится на 1500 точек вниз
   const testY = +new URLSearchParams(location.search).get('y') || 0;
-  const tlIntro = gsap.timeline({ onComplete: () => { root.classList.add('is-ready'); lenis.start(); if (testY) lenis.scrollTo(testY, { immediate: true }); } });
+  // 18.11 (Игорь: «заставка с логотипом через раз»): заставка начиналась сразу, а картинка логотипа на телефоне приходила
+  // через 4–6 с — логотип успевал «загореться» и погаснуть невидимым, оставался тёмный экран. Теперь заставка ждёт логотип
+  // (не дольше 2,5 с), а гаснет, когда готово фото первого экрана (ещё не дольше 3,5 с).
+  const ready = (img, ms) => new Promise(r => {
+    if (!img) return r(); const t = setTimeout(r, ms);
+    const ok = () => { clearTimeout(t); r(); };
+    if (img.complete && img.naturalWidth) (img.decode ? img.decode().then(ok, ok) : ok());
+    else { img.addEventListener('load', () => (img.decode ? img.decode().then(ok, ok) : ok()), { once: true }); img.addEventListener('error', ok, { once: true }); }
+  });
+  // логотип загорается и по нему пробегает блеск сами (стиль в index.html, как только пришла картинка); отсюда — только уход заставки
+  const tlIntro = gsap.timeline({ paused: true, onComplete: () => { root.classList.add('is-ready'); lenis.start(); if (testY) lenis.scrollTo(testY, { immediate: true }); } });
   tlIntro
-    .to('.intro__logo', { opacity: 1, scale: 1, duration: 1.1, ease: 'power2.out' })
-    .to('.intro__shine', { backgroundPosition: '-50% 0', duration: 1.2, ease: 'power1.inOut' }, '-=.3')
+    .add(() => { const l = document.querySelector('.intro__logo'); if (l) l.style.transition = 'none'; })
     .to('.intro__logo', { scale: 1.06, opacity: 0, filter: 'blur(6px)', duration: .7, ease: 'power2.in' }, '+=.1')
     .to(intro, { opacity: 0, duration: .6, ease: 'power1.out', onComplete: () => intro.remove() }, '-=.25')
     .from('.hero__bg', { scale: 1.08, opacity: 0, duration: 2.2, ease: 'power3.out' }, '-=.6')
@@ -95,6 +123,15 @@
     .add(() => document.getElementById('hero').classList.add('wk-in'), '-=1.6');
   if (phone()) tlIntro.timeScale(1.7);   // на телефоне заставка короче: ~1,8 с вместо 3 с
   if (reduce) tlIntro.progress(1);
+  else {
+    // ждём: логотип загорелся (не дольше 2,5 с) и успел показаться целиком с блеском, и готово фото первого экрана (не дольше 3,5 с)
+    const SHOW = phone() ? 1350 : 2100;
+    const lit = ready(document.querySelector('.intro__logo img'), 2500).then(() => {
+      if (!intro.classList.contains('is-lit')) { intro.classList.add('is-lit'); window.__litT = performance.now(); }
+      return new Promise(r => setTimeout(r, Math.max(0, SHOW - (performance.now() - (window.__litT || 0)))));
+    });
+    Promise.all([lit, ready(document.querySelector('.wk-front'), 3500), ready(document.querySelector('.wk-bg169'), 3500)]).then(() => tlIntro.play());
+  }
 
   /* ================================================================
      ПОЛЁТ КАМЕРЫ НА ПЕРВОМ ЭКРАНЕ
@@ -527,7 +564,7 @@
     smoke.style.top = offY + 'px'; smoke.style.height = shh + 'px';
     smoke.width = Math.round(sw * SSC); smoke.height = Math.round(shh * SSC);   // дым мягкий: половины точек хватает
   }
-  sizeSmoke(); addEventListener('resize', sizeSmoke);
+  const smRs = realResize(); sizeSmoke(); addEventListener('resize', () => { if (smRs()) sizeSmoke(); });
   ScrollTrigger.addEventListener('refresh', sizeSmoke);
 
   function local(el) {
@@ -778,7 +815,7 @@
     let cur = secs[0].c.map(a => a.slice());
     // 16.11 ускорение: дымка мягкая, считать её в полном разрешении незачем — четверть точек, растягивает браузер
     const size = () => { const k = phone() ? .55 : .7; cv.width = Math.round(innerWidth * k); cv.height = Math.round(innerHeight * k); gl.viewport(0, 0, cv.width, cv.height); };
-    size(); addEventListener('resize', size);
+    const bgRs = realResize(); size(); addEventListener('resize', () => { if (bgRs()) size(); });
     cv.classList.add('is-on');
     const heroEl = document.getElementById('hero');
     let tick = 0, mc = 0, tops = null, heroB = 0;

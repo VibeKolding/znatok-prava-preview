@@ -121,7 +121,7 @@ button,input{font:inherit;color:inherit}
   background:linear-gradient(110deg,transparent 35%,rgba(255,250,230,.95) 50%,transparent 65%);background-size:300% 100%;background-position:150% 0}
 .is-ready .intro{pointer-events:none}
 /* 129: страховка — если скрипт не загрузился или упал до заставки (или JS выключен), заставка всё равно уходит через 8 с */
-.intro{animation:introSafety .6s 8s forwards}
+.intro{animation:introSafety .6s 11s forwards}   /* 18.11: заставка теперь ждёт логотип и фото — запас дольше */
 @keyframes introSafety{to{opacity:0;visibility:hidden;pointer-events:none}}
 
 /* ---------- лента ---------- */

@@ -13,7 +13,28 @@
 <meta name="description" content="Юрцентр «Знаток права», Омск, ул. Пушкина, 2. Узнайте за 2 минуты, подходит ли вам банкротство и сколько это стоит.">
 <link rel="preload" href="fonts/cormorant-garamond-500-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/manrope-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/style.css?v=s35">
+<!-- 18.11 (Игорь: «заставка с логотипом грузится через раз»): логотип заставки — первым и с высоким приоритетом;
+     скрипты — в шапке с defer: качаются сразу и параллельно (раньше шли по одному, и на 4G сайт оживал только к 8-й секунде) -->
+<link rel="preload" href="img/logo-520.webp" as="image" fetchpriority="high" crossorigin>
+<!-- 18.11: заставка оформлена прямо здесь и загорается сама, как только пришла картинка логотипа, — не ждёт стилей и скриптов -->
+<style>
+.intro{position:fixed;inset:0;z-index:100;background:#0F0806;display:grid;place-items:center}
+.intro__logo{position:relative;width:260px;opacity:0;transform:scale(.94);transition:opacity 1.1s cubic-bezier(.22,.61,.36,1),transform 1.1s cubic-bezier(.22,.61,.36,1)}
+.intro__logo img{display:block;width:100%}
+.intro.is-lit .intro__logo{opacity:1;transform:none}
+.intro.is-lit .intro__shine{animation:introShine 1.2s ease-in-out .8s both}
+@keyframes introShine{to{background-position:-50% 0}}
+@media (max-width:760px){.intro__logo{width:190px;transition-duration:.7s}.intro.is-lit .intro__shine{animation-duration:.8s;animation-delay:.45s}}
+</style>
+<script defer src="vendor/gsap.min.js"></script>
+<script defer src="vendor/ScrollTrigger.min.js"></script>
+<script defer src="vendor/lenis.min.js"></script>
+<script defer src="js/text-fx.js?v=s2"></script>
+<script defer src="js/transitions.js?v=s18"></script>
+<script defer src="js/main.js?v=s31"></script>
+<script defer src="js/wick-live.js?v=s2"></script>
+<script defer src="js/app-phone.js?v=5"></script>
+<link rel="stylesheet" href="css/style.css?v=s36">
 <link rel="stylesheet" href="css/wick.css?v=1117s">
 <link rel="stylesheet" href="css/mobile.css?v=s8">
 <link rel="stylesheet" href="css/app-phone.css?v=10">
@@ -23,10 +44,11 @@
 <!-- Заставка: золотой логотип загорается -->
 <div class="intro" id="intro" aria-hidden="true">
   <div class="intro__logo">
-    <img src="img/logo-520.webp" alt="">
+    <img src="img/logo-520.webp" alt="" fetchpriority="high" crossorigin>
     <span class="intro__shine"></span>
   </div>
 </div>
+<script src="js/intro.js?v=1"></script><!-- без async: крошечный файл качается первым, иначе стоял в очереди за остальными -->
 
 <!-- Лента через всю страницу (рисуется на холсте) -->
 <canvas class="livebg" id="livebg" aria-hidden="true"></canvas>
@@ -551,14 +573,6 @@
   </defs>
 </svg>
 
-<script src="vendor/gsap.min.js"></script>
-<script src="vendor/ScrollTrigger.min.js"></script>
-<script src="vendor/lenis.min.js"></script>
-<script src="js/text-fx.js?v=s2"></script>
-<script src="js/transitions.js?v=s17"></script>
-<script src="js/main.js?v=s26"></script>
-<script src="js/wick-live.js?v=s2"></script>
-<script src="js/app-phone.js?v=5"></script>
 
 </body>
 </html>
