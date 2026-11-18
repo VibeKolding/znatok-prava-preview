@@ -43,6 +43,11 @@
   // запомнил, и раскрытые ответы вылезали вниз под главу «Связаться» (их не было видно). После раскрытия пересчитываем.
   { let t; document.addEventListener('toggle', e => { if (e.target.closest && e.target.closest('.tx-a, .tx-b')) { clearTimeout(t); t = setTimeout(() => ScrollTrigger.refresh(), 60); } }, true); }
   const H = () => VH(), W = () => innerWidth;
+  // 18.11 (Игорь: «на телефоне переходы дёргаются, на компьютере плавные»): на компьютере прокрутку сглаживает Lenis,
+  // а на iPhone прокручивает сам телефон и шлёт положение неровно — сцена прыгала шагами. На сенсорном экране сцена
+  // догоняет прокрутку за ~0,35 с, плавно (сцены закреплены на экране, отставание не видно). ?sc=0 — выключить для сравнения.
+  const scQ = new URLSearchParams(location.search).get('sc');
+  const SCRUB = scQ === '0' ? true : scQ ? +scQ : (matchMedia('(pointer:fine)').matches ? true : .35);
 
   const rgba = (hex, a) => { const n = parseInt(hex.slice(1), 16); return `rgba(${n >> 16},${(n >> 8) & 255},${n & 255},${a})`; };
   const bgOf = sec => { const c = sec.dataset.bg.split(','); return `radial-gradient(110% 80% at 72% 26%, ${rgba(c[1], .85)}, transparent 64%), radial-gradient(70% 55% at 16% 96%, ${rgba(c[2], .1)}, transparent 70%), ${c[0]}`; };
@@ -63,7 +68,7 @@
     ScrollTrigger.create({ trigger: A, start: 'bottom bottom', end: () => '+=' + H(), pin: true, pinSpacing: false, refreshPriority: 10 });
     // после остановки глава B сдвинута на экран вниз — закреплённые при прокрутке блоки внутри (.fit, заголовок «Вопросов»)
     // считают своё место на экран ниже; класс tx-past включает поправку в стилях
-    return st => ({ trigger: B, start: 'top top', end: () => '+=' + H(), pin: true, pinSpacing: false, scrub: true, refreshPriority: 9, anticipatePin: 1, ...st,
+    return st => ({ trigger: B, start: 'top top', end: () => '+=' + H(), pin: true, pinSpacing: false, scrub: SCRUB, refreshPriority: 9, anticipatePin: 1, ...st,
       onLeave: s => { B.classList.add('tx-past'); st.onLeave && st.onLeave(s); },
       onEnterBack: s => { B.classList.remove('tx-past'); st.onEnterBack && st.onEnterBack(s); } });
   }
@@ -82,7 +87,7 @@
     const drift = { k: 0 }, moveFog = () => { const w = W(); fa.style.setProperty('--mx', -w * .35 * drift.k + 'px'); fd.style.setProperty('--mx', w * .2 * drift.k + 'px'); fb.style.setProperty('--mx', w * .28 * drift.k + 'px'); fc.style.setProperty('--mx', -w * .18 * drift.k + 'px'); };
     gsap.set(fog, { autoAlpha: 0 });
     b2.setAttribute('data-hold', '');   // заголовок «Наша цена» собирается, когда дым уже ушёл
-    gsap.timeline({ scrollTrigger: { trigger: b2, start: 'top bottom', end: 'top top', scrub: true,
+    gsap.timeline({ scrollTrigger: { trigger: b2, start: 'top bottom', end: 'top top', scrub: SCRUB,
       onUpdate: hold(b2, .74), onLeave: () => b2.removeAttribute('data-hold'), onLeaveBack: () => b2.setAttribute('data-hold', '') } })
       .fromTo(fog, { autoAlpha: 0 }, { autoAlpha: 1, duration: .01, ease: 'none' }, 0)
       // 18.11 (Игорь: «дым чересчур затяжной»): дым тот же, но стоит на стыке вдвое короче и уходит раньше
