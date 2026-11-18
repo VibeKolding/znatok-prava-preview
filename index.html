@@ -16,6 +16,7 @@
 <link rel="stylesheet" href="css/style.css?v=s34">
 <link rel="stylesheet" href="css/wick.css?v=1117s">
 <link rel="stylesheet" href="css/mobile.css?v=s7">
+<link rel="stylesheet" href="css/app-phone.css?v=9">
 </head>
 <body>
 
@@ -265,12 +266,102 @@
                 <h2 class="h2 split"><span class="l">Кто ведёт</span><span class="l l--1"><em>дело</em></span></h2>
         <p class="sec__lead"><span class="ph">[пара фраз о Нурлане — согласовать с Нурланом]</span></p>
         <ul class="proof__facts"><li><b>с 2019</b> года работаем</li><li><b>Омск</b> офис на ул.&nbsp;Пушкина, 2</li><li><b>вся Россия</b> дистанционно</li></ul>
-        <h3 class="app__title">Своё приложение для клиентов</h3>
-        <div class="app">
-          <div class="app__item glass"><h4>Стадия дела</h4><p>На каком этапе и что дальше.</p></div>
-          <div class="app__item glass"><h4>График платежей</h4><p>Сколько и когда, что оплачено.</p></div>
-          <div class="app__item glass"><h4>Ответы на тревоги</h4><p>Что делать, если позвонил пристав или пришло письмо из банка.</p></div>
-          <div class="app__item glass"><h4>Переписка и документы</h4><p>Все бумаги и вопросы юристу в одном месте.</p></div>
+      </div>
+    </div>
+
+    <div class="wrap appx" id="prilozhenie">
+      <h3 class="appx__title"><i class="appx__orn" aria-hidden="true"></i><span class="appx__words"><span class="appx__t1">Своё приложение</span><em class="appx__t2">для клиентов</em></span><i class="appx__orn appx__orn--r" aria-hidden="true"></i></h3>
+      <div class="appx__stage">
+        <div class="appx__col appx__col--l">
+          <button class="appx__call is-on" type="button" data-s="0"><h4>Стадия дела</h4><p>На какой стадии сейчас ваше дело.</p></button>
+          <button class="appx__call" type="button" data-s="1"><h4>График платежей</h4><p>Сколько и когда платить.</p></button>
+        </div>
+        <div class="phone" aria-hidden="true">
+          <div class="phone__screen">
+            <div class="phone__island"></div>
+            <div class="ph-bar"><b>9:41</b><span class="ph-bar__r"><i></i><i></i><i></i><em></em></span></div>
+
+            <section class="ph-scr is-on" data-s="0">
+              <div class="ph-body">
+                <div class="ph-hello"><div><p>Добрый день,</p><h5>Анна</h5></div><span class="ph-bell"><svg viewBox="0 0 24 24"><path d="M6 16V11a6 6 0 1 1 12 0v5l1.5 2h-15zM10 20a2 2 0 0 0 4 0"/></svg><i>1</i></span></div>
+                <div class="ph-card">
+                  <div class="ph-row"><span class="ph-mut">Ваше дело</span><span class="ph-pill ph-pill--ok">Идёт по плану</span></div>
+                  <h6 class="ph-stname">Принятие заявления судом</h6>
+                  <span class="ph-mut ph-sm ph-stno">Этап 3 из 5</span>
+                  <div class="ph-steps">
+                    <span class="d is-done"><svg viewBox="0 0 24 24"><path d="M5 12.5 10 17l9-10"/></svg></span><span class="ln is-done"></span>
+                    <span class="d is-done"><svg viewBox="0 0 24 24"><path d="M5 12.5 10 17l9-10"/></svg></span><span class="ln is-done"></span>
+                    <span class="d is-cur">3</span><span class="ln"></span>
+                    <span class="d">4</span><span class="ln"></span>
+                    <span class="d">5</span>
+                  </div>
+                  <div class="ph-steplbl"><i>Сбор документов</i><i>Подача заявления</i><i class="is-cur">Принятие заявления</i><i>Реализация имущества</i><i>Завершение</i></div>
+                  <div class="ph-hr"></div>
+                  <span class="ph-mut ph-sm">До завершения процедуры</span>
+                  <b class="ph-big ph-months">≈ 8 месяцев</b>
+                </div>
+                <h6 class="ph-h">Следующий шаг</h6>
+                <div class="ph-card ph-nextstep"><span class="ph-arr">›</span><span>Суд проверяет заявление. Дату заседания мы сообщим здесь, от вас ничего не нужно.</span></div>
+                <h6 class="ph-h">Последние события</h6>
+                <div class="ph-card ph-ev"><span class="ph-ok"><svg viewBox="0 0 24 24"><path d="M5 12.5 10 17l9-10"/></svg></span><span class="ph-mut ph-sm">2 дек.</span><span>Заявление подано в суд</span></div>
+                              </div>
+              <nav class="ph-tabs"><span class="ph-tab is-on"><svg viewBox="0 0 24 24"><path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-4.5v-6h-5v6H5a1 1 0 0 1-1-1z"/></svg><i>Главная</i></span><span class="ph-tab"><svg viewBox="0 0 24 24"><path d="M7 3h7l5 5v12a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg><i>Моё дело</i></span><span class="ph-tab"><svg viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3 10h18"/></svg><i>Платежи</i></span><span class="ph-tab"><svg viewBox="0 0 24 24"><path d="M20 11.5a8 8 0 0 1-11.6 7.1L4 20l1.4-4.2A8 8 0 1 1 20 11.5z"/></svg><i>Чат</i></span><span class="ph-tab"><svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg><i>Ещё</i></span></nav>
+            </section>
+
+            <section class="ph-scr" data-s="1">
+              <div class="ph-body">
+                <h5 class="ph-title">Платежи</h5>
+                <div class="ph-card">
+                  <span class="ph-mut ph-sm">Оплачено</span>
+                  <b class="ph-big"><span class="ph-paid">75 000</span> <small>из 150 000 ₽</small></b>
+                  <div class="ph-prog"><i class="ph-paybar" style="width:50%"></i></div>
+                  <div class="ph-next"><span class="ph-mut ph-sm">Следующий платёж</span><b>15 000 ₽</b><span class="ph-warn">до 25 февраля · через 6 дн.</span></div>
+                </div>
+                <h6 class="ph-h">График</h6>
+                <div class="ph-card ph-list">
+                  <div class="ph-pay"><span>Первый взнос</span><b>30 000 ₽</b><em class="ph-pill ph-pill--ok">Оплачен</em></div>
+                  <div class="ph-pay"><span>Декабрь</span><b>15 000 ₽</b><em class="ph-pill ph-pill--ok">Оплачен</em></div>
+                  <div class="ph-pay"><span>Январь</span><b>15 000 ₽</b><em class="ph-pill ph-pill--ok">Оплачен</em></div>
+                  <div class="ph-pay"><span>Февраль</span><b>15 000 ₽</b><em class="ph-pill ph-pill--warn">Скоро</em></div>
+                  <div class="ph-pay"><span>Март</span><b>15 000 ₽</b><em class="ph-pill">Ожидает</em></div>
+                </div>
+              </div>
+              <nav class="ph-tabs"><span class="ph-tab"><svg viewBox="0 0 24 24"><path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-4.5v-6h-5v6H5a1 1 0 0 1-1-1z"/></svg><i>Главная</i></span><span class="ph-tab"><svg viewBox="0 0 24 24"><path d="M7 3h7l5 5v12a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg><i>Моё дело</i></span><span class="ph-tab is-on"><svg viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3 10h18"/></svg><i>Платежи</i></span><span class="ph-tab"><svg viewBox="0 0 24 24"><path d="M20 11.5a8 8 0 0 1-11.6 7.1L4 20l1.4-4.2A8 8 0 1 1 20 11.5z"/></svg><i>Чат</i></span><span class="ph-tab"><svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg><i>Ещё</i></span></nav>
+            </section>
+
+            <section class="ph-scr" data-s="2">
+              <div class="ph-body">
+                <div class="ph-head"><b>‹</b><span>База знаний</span></div>
+                <div class="ph-search">Поиск по вопросам</div>
+                <span class="ph-cap">Защита от коллекторов</span>
+                <div class="ph-kb"><span class="ph-qi"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.3a2.5 2.5 0 1 1 3.4 2.3c-.6.3-1 .8-1 1.5v.4M12 16.8v.2"/></svg></span><span>С начала процедуры взыскание приостановлено</span><b class="ph-chev">›</b></div>
+                <div class="ph-kb"><span class="ph-qi"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.3a2.5 2.5 0 1 1 3.4 2.3c-.6.3-1 .8-1 1.5v.4M12 16.8v.2"/></svg></span><span>Что говорить, если звонит коллектор</span><b class="ph-chev">›</b></div>
+                <div class="ph-kb"><span class="ph-qi"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.3a2.5 2.5 0 1 1 3.4 2.3c-.6.3-1 .8-1 1.5v.4M12 16.8v.2"/></svg></span><span>Куда жаловаться на давление</span><b class="ph-chev">›</b></div>
+                <span class="ph-cap">Частые вопросы</span>
+                <div class="ph-kb"><span class="ph-qi"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.3a2.5 2.5 0 1 1 3.4 2.3c-.6.3-1 .8-1 1.5v.4M12 16.8v.2"/></svg></span><span>Заберут ли единственное жильё?</span><b class="ph-chev">›</b></div>
+                <div class="ph-kb"><span class="ph-qi"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.3a2.5 2.5 0 1 1 3.4 2.3c-.6.3-1 .8-1 1.5v.4M12 16.8v.2"/></svg></span><span>Что будет с зарплатной картой?</span><b class="ph-chev">›</b></div>
+                <div class="ph-kb"><span class="ph-qi"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.3a2.5 2.5 0 1 1 3.4 2.3c-.6.3-1 .8-1 1.5v.4M12 16.8v.2"/></svg></span><span>Можно ли выезжать за границу?</span><b class="ph-chev">›</b></div>
+              </div>
+              <nav class="ph-tabs"><span class="ph-tab"><svg viewBox="0 0 24 24"><path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-4.5v-6h-5v6H5a1 1 0 0 1-1-1z"/></svg><i>Главная</i></span><span class="ph-tab"><svg viewBox="0 0 24 24"><path d="M7 3h7l5 5v12a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg><i>Моё дело</i></span><span class="ph-tab"><svg viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3 10h18"/></svg><i>Платежи</i></span><span class="ph-tab"><svg viewBox="0 0 24 24"><path d="M20 11.5a8 8 0 0 1-11.6 7.1L4 20l1.4-4.2A8 8 0 1 1 20 11.5z"/></svg><i>Чат</i></span><span class="ph-tab is-on"><svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg><i>Ещё</i></span></nav>
+            </section>
+
+            <section class="ph-scr" data-s="3">
+              <div class="ph-chathead"><span class="ph-ava">Д</span><div><b>Диана</b><span class="ph-online">Юрист · На связи</span></div></div>
+              <div class="ph-body ph-chat">
+                <span class="ph-day">Сегодня</span>
+                <div class="ph-msg ph-msg--me">Добрый день! Получила справку о доходах, отправляю<span class="ph-time">10:12</span></div>
+                <div class="ph-msg ph-msg--me ph-file"><span class="ph-fico">PDF</span><span><b>Справка о доходах.pdf</b><i>240 КБ</i></span></div>
+                <div class="ph-msg">Спасибо, получили. Осталась выписка из ЕГРН, сейчас пришлю, где её заказать<span class="ph-time">10:15</span></div>
+                <div class="ph-docs"><span class="ph-mut ph-sm">Документы</span><b>12 из 15 загружено</b><div class="ph-prog"><i style="width:80%"></i></div></div>
+              </div>
+              <div class="ph-input"><span>Сообщение</span><i>➤</i></div>
+              <nav class="ph-tabs"><span class="ph-tab"><svg viewBox="0 0 24 24"><path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-4.5v-6h-5v6H5a1 1 0 0 1-1-1z"/></svg><i>Главная</i></span><span class="ph-tab"><svg viewBox="0 0 24 24"><path d="M7 3h7l5 5v12a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg><i>Моё дело</i></span><span class="ph-tab"><svg viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3 10h18"/></svg><i>Платежи</i></span><span class="ph-tab is-on"><svg viewBox="0 0 24 24"><path d="M20 11.5a8 8 0 0 1-11.6 7.1L4 20l1.4-4.2A8 8 0 1 1 20 11.5z"/></svg><i>Чат</i></span><span class="ph-tab"><svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg><i>Ещё</i></span></nav>
+            </section>
+          </div>
+        </div>
+        <div class="appx__col appx__col--r">
+          <button class="appx__call" type="button" data-s="2"><h4>Справка</h4><p>Ответы на вопросы, которые чаще всего тревожат клиентов.</p></button>
+          <button class="appx__call" type="button" data-s="3"><h4>Переписка и документы</h4><p>Пишете нам и отправляете документы прямо в приложении.</p></button>
         </div>
       </div>
     </div>
@@ -459,6 +550,7 @@
 <script src="js/transitions.js?v=s13"></script>
 <script src="js/main.js?v=s21"></script>
 <script src="js/wick-live.js?v=s2"></script>
+<script src="js/app-phone.js?v=4"></script>
 
 </body>
 </html>
