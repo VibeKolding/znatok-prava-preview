@@ -41,12 +41,10 @@
     addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
   }
   gsap.registerPlugin(ScrollTrigger);
-  // 18.11 (Игорь: «на телефоне не все переходы плавные, на компьютере все»): на iPhone прокрутка пальцем идёт в отдельном потоке,
-  // а сцены переходов двигает скрипт — он отстаёт на кадр, и закреплённые сцены подрагивают. normalizeScroll (средство GSAP)
-  // переводит прокрутку туда же, где работают сцены. Только iPhone/iPad; проверка: ?ns=1 — включить везде, ?ns=0 — выключить.
+  // 18.11: normalizeScroll на iPhone Игорь проверил — «с зависанием и дёрганьем вся страница движется». Выключен.
+  // Оставлен только для сравнения: ?ns=1 в конце ссылки.
   const nsQ = new URLSearchParams(location.search).get('ns');
-  const iOS = /iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-  if ((iOS && nsQ !== '0') || nsQ === '1') {
+  if (nsQ === '1') {
     window.__norm = ScrollTrigger.normalizeScroll({ allowNestedScroll: true });
     // normalizeScroll сам досылает «нажатие» после касания; если браузер прислал и своё — второе гасим, иначе ответ в «Вопросах»
     // раскрывался и тут же закрывался, а меню открывалось и закрывалось (проверено в движке Safari)
