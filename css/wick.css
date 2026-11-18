@@ -1,0 +1,191 @@
+/* ===== ДУБЛЬ 113: первый экран-постер по образцу Джона Уика =====
+   Сайт 111 не менялся. Узкий шрифт в тесте системный (Mac); на сайт нужен бесплатный узкий шрифт с кириллицей файлом. */
+:root{--wk-fill:#860626;--wk-wall:134,3,34;--wk-hot:192,8,54;--wk-deep:88,2,22;--wk-line:#FFFFFF;--wk-fb1:#22030c;--wk-fb2:#160208;--wk-fb3:#0c0105;--wk-fb4:#070103;
+      --wk-narrow:"Avenir Next Condensed","Oswald","DIN Condensed","Arial Narrow",sans-serif;--wk-top:92px;--wk-floor:calc(var(--wk-top) + (100% - var(--wk-top)) * .7725)}
+.hero--wick{background:#060203}
+.hero--wick .hero__bg>*{position:absolute}
+/* стена во всю ширину: сверху чёрная, к полу насыщенный красный */
+.wk-wall{inset:0;background:
+  linear-gradient(180deg,rgba(var(--wk-wall),0) 0%,rgba(var(--wk-wall),0) 58%,rgba(var(--wk-wall),.35) 68%,rgba(var(--wk-wall),.8) 75%,rgba(var(--wk-wall),1) 79%,rgba(var(--wk-wall),1) 100%),#060203}
+/* пол во всю ширину, под фото пола */
+.wk-floorband{left:0;right:0;top:var(--wk-floor);bottom:0;
+  background:linear-gradient(180deg,var(--wk-fb1,#1a0303) 0%,var(--wk-fb2,#120202) 25%,var(--wk-fb3,#0a0202) 60%,var(--wk-fb4,#060101) 100%)}
+/* сцена с Нурланом в пропорциях фото 1116×2000, справа */
+.wk-stage{right:5vw;bottom:0;height:calc(100% - var(--wk-top));aspect-ratio:1116/2000}
+.wk-stage>.wk-zoom,.wk-zoom>*{position:absolute;inset:0;width:100%;height:100%}
+.wk-bg{background:
+  linear-gradient(205deg,rgba(0,0,0,.55) 0%,rgba(0,0,0,.2) 38%,transparent 60%),
+  radial-gradient(75% 36% at 12% 78%,rgba(var(--wk-hot),.85) 0%,rgba(var(--wk-hot),.35) 45%,transparent 75%);
+  -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 25%,#000 80%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 25%,#000 80%,transparent 100%)}
+.wk-floor{top:75.58%!important;height:24.42%!important;object-fit:fill;
+  --v:linear-gradient(180deg,transparent 0,transparent 5.6%,#000 7.6%);--h:linear-gradient(90deg,transparent 0,transparent 4%,#000 34%,#000 70%,transparent 96%);
+  -webkit-mask-image:var(--v),var(--h);-webkit-mask-composite:source-in;mask-image:var(--v),var(--h);mask-composite:intersect}
+.wk-floorglow{top:77.1%!important;height:16%!important;mix-blend-mode:screen;
+  background:radial-gradient(80% 70% at 22% 0%,rgba(var(--wk-hot),.55) 0%,rgba(var(--wk-hot),.18) 45%,transparent 80%),
+    linear-gradient(180deg,rgba(var(--wk-wall),.55) 0%,rgba(var(--wk-wall),.12) 35%,transparent 70%)}
+.wk-svg{overflow:visible}
+.wk-front{object-fit:cover;filter:brightness(.88) contrast(1.08)}
+.wk-t{font-family:var(--wk-narrow);font-weight:800}
+.wk-fill{fill:var(--wk-fill)}
+.wk-stroke{fill:none;stroke:var(--wk-line);stroke-width:2.2;stroke-dasharray:var(--wk-dash,3600);stroke-dashoffset:var(--wk-dash,3600);transition:stroke-dashoffset 3s cubic-bezier(.4,0,.2,1) .5s}
+.wk-stroke+.wk-stroke{transition-delay:.8s}
+.wk-in .wk-stroke{stroke-dashoffset:0}
+.wk-fillg{opacity:0;transform:translateY(40px);transition:opacity 1.3s,transform 1.6s cubic-bezier(.2,.8,.2,1)}
+.wk-in .wk-fillg{opacity:1;transform:none}
+/* затемнение слева под текстом и сверху под шапкой */
+.hero--wick .hero__shade{inset:0;background:
+  linear-gradient(90deg,rgba(6,2,3,.88) 0%,rgba(6,2,3,.66) 28%,rgba(6,2,3,.25) 50%,rgba(6,2,3,0) 62%),
+  linear-gradient(180deg,rgba(5,3,3,.7) 0%,rgba(5,3,3,0) 18%)}
+.hero--wick .hero__seq{display:none!important}
+/* плитки — в левой части, чтобы не закрывать Нурлана */
+.hero--wick .tiles{max-width:none;gap:14px;grid-template-columns:repeat(4,1fr);width:min(100%,900px)}
+/* окно поуже: плитки квадратом 2×2 слева, чтобы не наезжали на Нурлана */
+@media (max-width:1380px){.hero--wick .tiles{grid-template-columns:repeat(2,1fr);width:min(100%,500px)}}
+.hero--wick .tile{padding:20px 18px;gap:12px}
+.hero--wick .hero__copy{max-width:min(760px,calc(100% - 50vh))}
+/* всё влезает в один экран */
+.hero--wick{padding-bottom:30px;height:auto;min-height:100vh}  /* экран растёт, если плитки не влезли: ничего не обрезается */
+.hero--wick .hero__cta{margin-bottom:38px}
+.hero--wick .tiles{margin-top:26px}
+.hero--wick .tile{padding:16px 18px}
+
+/* ===== оживление (тест): дым в чёрных местах, медленный зум, свет дышит, глубина за мышкой ===== */
+.wk-smoke{inset:0;width:100%;height:100%;pointer-events:none}
+@keyframes wkZoom{from{transform:scale(1)}to{transform:scale(1.07) translateY(-1%)}}
+.wk-bg{animation:wkBreath 5.5s ease-in-out infinite alternate}
+.wk-floorglow{animation:wkBreath 5.5s ease-in-out infinite alternate-reverse}
+@keyframes wkBreath{from{opacity:.72}to{opacity:1}}
+.wk-wall{animation:wkWall 9s ease-in-out infinite alternate}
+@keyframes wkWall{from{filter:brightness(.9)}to{filter:brightness(1.12)}}
+/* Нурлан стоит на полу неподвижно (иначе съезжает с отражения); за мышкой двигаются только буквы */
+.wk-svg{transition:transform .8s cubic-bezier(.2,.8,.2,1)}
+.wk-svg{transform:translate(calc(var(--mx,0) * 14px),calc(var(--my,0) * 5px))}
+@media (prefers-reduced-motion:reduce){.wk-scene-in,.wk-flow,.wk-bg,.wk-floorglow,.wk-wall{animation:none}}
+
+
+/* ===== 16.11, вечер: без стыков. Стена, пол и Нурлан — одна сцена: зум и прокрутка двигают её целиком ===== */
+.hero--wick .wk-scene,.wk-scene-in{position:absolute;inset:0}
+.wk-scene-in>*{position:absolute}
+.wk-scene-in{transform-origin:72% 80%;animation:wkZoom 16s ease-in-out infinite alternate;will-change:transform}
+/* линия пола во всю ширину: мягкий красный отсвет, перекрывает границы фото пола */
+.wk-horizon{left:0;right:0;top:calc(var(--wk-floor) - 3px);height:14%;pointer-events:none;
+  background:linear-gradient(180deg,rgba(var(--wk-wall),.0) 0%,rgba(var(--wk-wall),.45) 2.5%,rgba(var(--wk-wall),.14) 22%,transparent 70%)}
+/* перелив: красный свет медленно перетекает по чёрному над полом */
+.wk-flowbox{left:0;right:0;top:0;height:var(--wk-floor);overflow:hidden;pointer-events:none}
+.wk-flow{position:absolute;inset:-25%;mix-blend-mode:screen;
+  background:
+    radial-gradient(30% 24% at 34% 58%,rgba(var(--wk-hot),.30) 0%,rgba(var(--wk-hot),.10) 45%,transparent 72%),
+    radial-gradient(26% 20% at 70% 40%,rgba(var(--wk-wall),.26) 0%,rgba(var(--wk-wall),.08) 50%,transparent 75%),
+    radial-gradient(22% 30% at 52% 22%,rgba(var(--wk-deep,110,4,6),.22) 0%,transparent 70%);
+  animation:wkFlow 22s ease-in-out infinite alternate}
+@keyframes wkFlow{0%{transform:translate(-7%,3%) scale(1)}33%{transform:translate(6%,-3%) scale(1.08)}66%{transform:translate(-2%,-6%) scale(.96)}100%{transform:translate(8%,2%) scale(1.04)}}
+/* отсвет на полу без прямоугольных краёв */
+.wk-floorglow{-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 30%,#000 70%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 30%,#000 70%,transparent 100%)}
+.hero--wick{padding-bottom:10px}
+
+
+/* ===== перелив бордо и чёрного: граница медленно поднимается и опускается, по ней плывут волны света ===== */
+.wk-tide{position:absolute;left:-5%;right:-5%;top:0;height:100%;
+  background:linear-gradient(180deg,transparent 0%,transparent 38%,rgba(var(--wk-wall),.22) 52%,rgba(var(--wk-wall),.6) 70%,rgba(var(--wk-wall),1) 92%);
+  animation:wkTide 10s ease-in-out infinite alternate;will-change:transform}
+@keyframes wkTide{0%{transform:translateY(9%)}100%{transform:translateY(-9%)}}
+.wk-wave{position:absolute;inset:-30% -40%;will-change:transform;
+  background:
+    radial-gradient(22% 14% at 25% 60%,rgba(var(--wk-hot),.32) 0%,rgba(var(--wk-hot),.1) 50%,transparent 75%),
+    radial-gradient(18% 12% at 58% 56%,rgba(var(--wk-wall),.4) 0%,rgba(var(--wk-wall),.12) 50%,transparent 75%),
+    radial-gradient(20% 13% at 88% 62%,rgba(var(--wk-hot),.28) 0%,transparent 72%),
+    radial-gradient(16% 18% at 45% 44%,rgba(var(--wk-deep),.35) 0%,transparent 70%);
+  animation:wkWave 13s ease-in-out infinite alternate}
+.wk-wave--2{animation:wkWave2 17s ease-in-out infinite alternate;opacity:.7;transform:scaleX(-1)}
+@keyframes wkWave{0%{transform:translate(-12%,4%)}50%{transform:translate(6%,-6%)}100%{transform:translate(14%,2%)}}
+@keyframes wkWave2{0%{transform:scaleX(-1) translate(10%,-3%)}50%{transform:scaleX(-1) translate(-8%,6%)}100%{transform:scaleX(-1) translate(-14%,-4%)}}
+.wk-flow{display:none}
+@media (prefers-reduced-motion:reduce){.wk-tide,.wk-wave{animation:none}}
+
+/* ===== 16.11, ночь: новое фото Нурлана (анфас, красный свет, мокрый пол) — фон и пол берутся с самого фото ===== */
+.hero--wick{--wk-floor:calc(var(--wk-top) + (100% - var(--wk-top)) * .807);background:#020000}
+.wk-stage{aspect-ratio:941/1672}
+.wk-photo{object-fit:cover;animation:wkPhoto 7s ease-in-out infinite alternate;
+  -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 12%,#000 88%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 12%,#000 88%,transparent 100%)}
+@keyframes wkPhoto{from{filter:brightness(.94) saturate(1)}to{filter:brightness(1.08) saturate(1.1)}}
+/* стена и пол по краям экрана — того же цвета, что края фото */
+.wk-wall{background:linear-gradient(180deg,#020000 0%,#060000 20%,#0b0001 45%,#110001 65%,#170002 80.7%,#170002 100%);animation:none}
+.wk-floorband{background:linear-gradient(180deg,#140102 0%,#0e0102 30%,#090001 70%,#060000 100%)}
+.wk-front{filter:none}
+@media (prefers-reduced-motion:reduce){.wk-photo{animation:none}}
+
+/* ===== слои: фон отдельно (свой туман и мокрый пол) → отражение ботинок → перелив света → «ЗНАТОК» → Нурлан с хромакея → контур ===== */
+.hero--wick{--wk-floor:calc(var(--wk-top) + (100% - var(--wk-top)) * .802)}
+.wk-wall{background:linear-gradient(180deg,#010000 0%,#050000 12%,#090000 30%,#0c0000 50%,#130000 66%,#170000 80.2%,#100000 85%,#050000 100%)}
+.wk-floorband{background:linear-gradient(180deg,#140000 0%,#0c0000 25%,#050000 60%,#020000 100%)}
+.wk-photo{animation:wkPhoto 8s ease-in-out infinite alternate}
+@keyframes wkPhoto{from{filter:brightness(.9) saturate(1)}to{filter:brightness(1.1) saturate(1.12)}}
+.wk-patch{object-fit:cover}
+/* перелив: тёплое свечение у горизонта плывёт влево-вправо и дышит — за спиной Нурлана */
+.wk-glow{mix-blend-mode:screen;pointer-events:none;
+  background:
+    radial-gradient(34% 16% at 50% 78%,rgba(200,20,24,.45) 0%,rgba(160,10,16,.16) 55%,transparent 80%),
+    radial-gradient(24% 22% at 30% 62%,rgba(150,8,14,.28) 0%,transparent 75%),
+    radial-gradient(22% 20% at 72% 58%,rgba(150,8,14,.24) 0%,transparent 75%);
+  -webkit-mask-image:linear-gradient(180deg,#000 0,#000 79%,transparent 81%);mask-image:linear-gradient(180deg,#000 0,#000 79%,transparent 81%);
+  animation:wkGlow 11s ease-in-out infinite alternate}
+@keyframes wkGlow{0%{transform:translateX(-7%);opacity:.55}50%{transform:translateX(4%);opacity:1}100%{transform:translateX(8%);opacity:.7}}
+.wk-front{filter:brightness(.93) contrast(1.05)}
+@media (prefers-reduced-motion:reduce){.wk-glow{animation:none}}
+
+/* ===== бордо на новом фото: фон и красный контровой свет на Нурлане перекрашены в бордо (файлы *-burg), края и перелив под тот же цвет ===== */
+.wk-wall{background:linear-gradient(180deg,#010000 0%,#050001 12%,#090002 30%,#0c0003 50%,#120004 66%,#160005 80.2%,#0f0003 85%,#050001 100%)}
+.wk-floorband{background:linear-gradient(180deg,#130004 0%,#0b0002 25%,#050001 60%,#020000 100%)}
+.wk-glow{background:
+    radial-gradient(34% 16% at 50% 78%,rgba(176,10,48,.45) 0%,rgba(134,3,34,.16) 55%,transparent 80%),
+    radial-gradient(24% 22% at 30% 62%,rgba(134,3,34,.30) 0%,transparent 75%),
+    radial-gradient(22% 20% at 72% 58%,rgba(134,3,34,.26) 0%,transparent 75%)}
+
+/* ===== 16.11: настоящий логотип вместо «ЗП» — в ленте на плашках цены и в закладках этапов ===== */
+.band__logo{height:30px;width:auto;flex:none;filter:drop-shadow(0 1px 0 rgba(0,0,0,.5))}
+.scard__bm{width:82px;height:184px;padding-bottom:40px;right:56px}
+.scard__bm img{width:66px;height:auto;filter:drop-shadow(0 1px 1px rgba(0,0,0,.55))}
+.scard{padding-right:170px}  /* текст не заходит под закладку */
+
+/* ===== дым из пепла: плашка проявляется снизу вверх по огненной кромке (кромку и дым рисует холст) ===== */
+.plaque.is-burning{--burn:0;
+  -webkit-mask-image:linear-gradient(0deg,#000 calc(var(--burn) * 110% - 10%),transparent calc(var(--burn) * 110%));
+  mask-image:linear-gradient(0deg,#000 calc(var(--burn) * 110% - 10%),transparent calc(var(--burn) * 110%))}
+
+/* ===== 17.11: постер шире — красный свет и мокрый пол продолжаются за края фото, шва со стеной нет =====
+   wick2-bg-wide.webp — середина того же фона, растянутая в 2,5 раза вширь, слегка размытая и затухающая к краям;
+   лежит под чётким фото, у чёткого фото края тают мягче */
+.wk-stage>.wk-wide{position:absolute;top:0;bottom:0;left:-75%;width:250%;height:100%;object-fit:fill;pointer-events:none;
+  animation:wkPhoto 8s ease-in-out infinite alternate;
+  -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 22%,#000 78%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 22%,#000 78%,transparent 100%)}
+.wk-photo{-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 24%,#000 76%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 24%,#000 76%,transparent 100%)}
+
+/* ===== 17.11 (проверено на дубле 114): фон 16:9 от Игоря на весь первый экран; узкое фото-фон и его растяжка не нужны =====
+   положение и размер фона считает js/wick-live.js — линия пола на картинке совпадает с полом под ногами Нурлана */
+.wk-photo,.wk-stage>.wk-wide{display:none!important}
+.wk-scene-in>.wk-bg169{position:absolute;max-width:none;pointer-events:none;animation:wkPhoto 8s ease-in-out infinite alternate}
+
+/* ===== 17.11: живой дым на первом экране =====
+   два слоя бесшовной текстуры дыма (img/fog-7, fog-19) медленно плывут в разные стороны с разной скоростью
+   поверх фона и за Нурланом. Двигает их видеокарта (только сдвиг картинки) — процессор почти не тратится.
+   Высоту слоя (до линии пола) задаёт js/wick-live.js через --wk-fogh. */
+.wk-scene-in>.wk-fog{left:0;right:0;top:0;height:var(--wk-fogh,80%);overflow:hidden;pointer-events:none;
+  -webkit-mask-image:linear-gradient(180deg,transparent 0,rgba(0,0,0,.85) 18%,#000 40%,#000 92%,transparent 100%);
+  mask-image:linear-gradient(180deg,transparent 0,rgba(0,0,0,.85) 18%,#000 40%,#000 92%,transparent 100%)}
+.wk-fog i{position:absolute;left:0;top:0;bottom:0;width:calc(var(--wk-fogw,100vw) * 2);background-repeat:repeat-x;background-size:var(--wk-fogw,100vw) 100%;will-change:transform}
+/* --wk-fogw — ширина одного куска текстуры: не уже экрана и не уже двух высот слоя, чтобы дым не вытягивался на узком телефоне */
+.wk-fog__a{background-image:url(../img/fog-7.webp);opacity:.8;animation:wkFogA 34s linear infinite,wkFogPulse 7s ease-in-out infinite alternate}
+.wk-fog__b{background-image:url(../img/fog-19.webp);opacity:.6;animation:wkFogB 52s linear infinite;mix-blend-mode:screen}
+@keyframes wkFogA{from{transform:translate3d(0,0,0)}to{transform:translate3d(-50%,0,0)}}
+@keyframes wkFogPulse{from{opacity:.55}to{opacity:.9}}   /* дым «дышит»: то гуще, то реже */
+@keyframes wkFogB{from{transform:translate3d(-50%,2%,0)}to{transform:translate3d(0,-2%,0)}}
+.wk-paused .wk-fog i{animation-play-state:paused}
+@media (prefers-reduced-motion:reduce){.wk-fog i{animation:none}}
+/* низовой туман у пола — ПЕРЕД Нурланом: стелется у ног, как на сцене. Полоса над линией пола (--wk-floory из js) */
+.wk-scene-in>.wk-mist{left:0;right:0;top:calc(var(--wk-floory,80%) - var(--wk-misth,160px));height:calc(var(--wk-misth,160px) * 1.25);overflow:hidden;pointer-events:none;
+  -webkit-mask-image:linear-gradient(180deg,transparent 0,#000 45%,#000 70%,transparent 100%);mask-image:linear-gradient(180deg,transparent 0,#000 45%,#000 70%,transparent 100%)}
+.wk-mist i{position:absolute;left:0;top:0;bottom:0;width:calc(var(--wk-fogw,100vw) * 2);background:url(../img/fog-19.webp) repeat-x;background-size:var(--wk-fogw,100vw) 100%;
+  opacity:.45;will-change:transform;animation:wkMist 40s linear infinite}
+@keyframes wkMist{from{transform:translate3d(0,0,0)}to{transform:translate3d(-50%,0,0)}}
+.wk-paused .wk-mist i{animation-play-state:paused}
+@media (prefers-reduced-motion:reduce){.wk-mist i{animation:none}}

@@ -1,0 +1,272 @@
+/* =====================================================================
+   МОБИЛЬНАЯ ВЕРСИЯ (16.11). Подключается последней.
+   ≤1100px — планшет и узкий ноутбук, ≤760px — телефон.
+   Компьютерная версия этим файлом не меняется.
+===================================================================== */
+
+/* ---------- меню-бургер (на компьютере скрыто) ---------- */
+.burger{display:none}
+.mnav{display:none}
+
+/* =================== ПЛАНШЕТ ≤1100px =================== */
+@media (max-width:1100px){
+  .wrap{width:calc(100% - 64px)}
+  .hdr__in{width:calc(100% - 48px)}
+  .nav{gap:24px}
+  .hdr__addr{display:none}
+  .sec{padding:110px 0}
+  .cards{grid-template-columns:repeat(2,1fr)}
+  .proof__grid,.reviews__grid,.faq__grid,.contact__grid{grid-template-columns:1fr;gap:50px}
+  .faq .sec__head{position:static}
+  .arch{max-width:380px;margin:0 auto;width:100%}
+  .cases{grid-template-columns:1fr 1fr}
+  .doubts__grid{grid-template-columns:1fr 1fr;gap:40px}
+  .fears__grid{grid-template-columns:1fr;gap:40px}
+  .fit{position:static}
+  .scard{grid-template-columns:150px 1fr;padding-right:140px}
+  .scard__n{font-size:110px}
+  /* 17.11: Игорь решил — на телефоне и планшете ленты нет, она только на компьютере */
+  .ribbon,.seal{display:none}
+}
+
+/* 129: подвал на планшете — знак сверху, три столбца ссылок под ним; ссылки не переносятся («Через / суд») */
+@media (min-width:761px) and (max-width:1100px){
+  .ftr__row{flex-direction:column;gap:36px}
+  .ftr__cols{gap:56px}
+  .ftr__cols a,.ftr__req li{white-space:nowrap}
+}
+/* 129: узкое горизонтальное окно (около 800 px): подпись «3 вопроса и ответ сразу…» стояла справа от кнопки
+   и заходила на контурные буквы — здесь она под кнопкой */
+@media (min-width:761px) and (max-width:880px) and (orientation:landscape){
+  .hero--wick .hero__cta{flex-wrap:wrap;row-gap:12px}
+  .hero--wick .hero__small{flex-basis:100%;max-width:none}
+}
+/* 129: на 761–860 px меню упиралось в «ЗНАТОК ПРАВА» (на 768 — вплотную) */
+@media (min-width:761px) and (max-width:860px){
+  .nav{gap:16px}
+}
+
+/* =================== ПЛАНШЕТ ВЕРТИКАЛЬНО (761–1100, портрет) ===================
+   129: ширина текста на первом экране считается от высоты экрана (100% − 50vh). На высоком экране
+   (iPad 768×1024, iPad Air 820×1180, iPad Pro 1024×1366) тексту оставалось 170–280 px: заголовок обрезался,
+   подписи наезжали на буквы. Здесь первый экран как на телефоне: постер во весь экран, текст на полу и ниже. */
+@media (min-width:761px) and (max-width:1100px) and (orientation:portrait){
+  .hero--wick{display:block;min-height:0;height:auto;padding:0 0 80px;overflow:visible;overflow-x:clip;
+    background:linear-gradient(180deg,#060203 0,#060203 calc(100% - 90px),rgba(6,2,3,0) 100%)}
+  .hero--wick .hero__bg{bottom:auto;height:100svh;min-height:700px}
+  .hero--wick .wk-stage{right:auto;left:50%;transform:translateX(-50%);height:calc(100% - var(--wk-top));max-width:none}
+  .wk-photo{-webkit-mask-image:none;mask-image:none}
+  .wk-stage>.wk-wide{display:none}
+  .hero--wick .hero__shade{background:
+    linear-gradient(180deg,rgba(5,3,3,.75) 0%,rgba(5,3,3,0) 14%,rgba(5,3,3,0) 62%,rgba(6,2,3,.35) 78%,rgba(6,2,3,.75) 92%,#060203 100%)}
+  .hero--wick .eyebrow,.hero--wick .hero__title,.hero--wick .hero__lead{text-shadow:0 2px 6px rgba(0,0,0,.75),0 0 22px rgba(0,0,0,.6)}
+  .hero--wick .hero__title .gold-text{text-shadow:none;filter:drop-shadow(0 2px 5px rgba(0,0,0,.8)) drop-shadow(0 0 16px rgba(0,0,0,.5))}
+  .hero--wick .hero__in{padding-top:calc(max(100svh,700px) - 300px);display:block}
+  .hero--wick .hero__copy{max-width:640px;padding-bottom:0}
+  .hero__title{font-size:clamp(48px,7.2vw,66px)}
+  .hero--wick .tiles,.hero--wick .tiles[class]{grid-template-columns:1fr 1fr;width:100%;max-width:640px}
+}
+
+/* =================== ТЕЛЕФОН ≤760px =================== */
+@media (max-width:760px){
+  body{font-size:16px}
+  .wrap{width:calc(100% - 36px)}
+  .sec{padding:76px 0}
+  .sec__head{margin-bottom:38px}
+  .sec__lead{font-size:16px;margin-top:16px}
+
+  /* заголовки лесенкой: меньше и без выноса за край */
+  .h2{font-size:clamp(34px,10.4vw,44px);line-height:.98}
+  .faq .h2,.contact .h2,.proof .h2,.quotes .h2,.steps__title{font-size:clamp(32px,9.6vw,40px)}
+  .h2 .l--1{padding-left:.6em}
+  .h2 .l--2{padding-left:1.2em}
+  .h2 .l--l,.h2 .l--r{transform:none;padding-left:0;padding-right:0}
+  .chap{margin-bottom:34px;font-size:10px;letter-spacing:.26em}
+  .chap > span:first-child::before{margin-right:10px}
+
+  /* кнопки */
+  .btn{height:56px;padding:0 26px 0 28px;font-size:16px}
+
+  /* заставка */
+  .intro__logo{width:190px}
+
+  /* ---------- шапка: знак, название, бургер ---------- */
+  .hdr__in{width:calc(100% - 28px);height:64px}
+  .hdr.is-solid .hdr__in{height:58px}
+  .brand{gap:10px}
+  .brand__mark{width:40px}
+  .brand__name{font-size:19px;letter-spacing:.05em}
+  .brand__sub{font-size:8px;letter-spacing:.24em;margin-top:5px}
+  .nav,.hdr__addr{display:none}
+  .burger{display:grid;place-items:center;width:46px;height:46px;border-radius:50%;border:1px solid var(--line-2);background:rgba(var(--bgr),.5);cursor:pointer;position:relative;z-index:61}
+  .burger i{position:absolute;width:18px;height:1.5px;background:var(--gold-lt);transition:transform .4s,opacity .3s}
+  .burger i:nth-child(1){transform:translateY(-5px)}
+  .burger i:nth-child(3){transform:translateY(5px)}
+  .menu-open .burger i:nth-child(1){transform:rotate(45deg)}
+  .menu-open .burger i:nth-child(2){opacity:0}
+  .menu-open .burger i:nth-child(3){transform:rotate(-45deg)}
+  /* 129: меню прокручивается (телефон лёжа — пункты уходили под шапку и за экран) */
+  .mnav{display:flex;position:fixed;inset:0;z-index:49;flex-direction:column;justify-content:center;justify-content:safe center;gap:6px;padding:90px 28px 40px;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;
+    background:rgba(12,6,5,.97);opacity:0;visibility:hidden;transition:opacity .4s,visibility .4s}
+  .menu-open .mnav{opacity:1;visibility:visible}
+  .mnav a{font-family:var(--serif);font-size:34px;line-height:1.3;color:var(--ivory);padding:6px 0;border-bottom:1px solid var(--line)}
+  .mnav a.mnav__addr{margin-top:22px;border:1px solid var(--line-2);border-radius:40px;font-family:var(--sans);font-size:15px;text-align:center;padding:14px;color:var(--gold-lt)}
+  .menu-open{overflow:hidden}
+
+  /* ---------- первый экран: постер во весь телефон, текст на полу ---------- */
+  .hero--wick{--wk-top:64px;display:block;min-height:0;height:auto;padding:0 0 70px;overflow:visible;overflow-x:clip;
+    background:linear-gradient(180deg,#060203 0,#060203 calc(100% - 90px),rgba(6,2,3,0) 100%)}
+  .hero--wick .hero__bg{bottom:auto;height:100svh;min-height:600px}
+  .hero--wick .wk-stage{right:auto;left:50%;transform:translateX(-50%);height:calc(100% - var(--wk-top));max-width:none}
+  .wk-photo{-webkit-mask-image:none;mask-image:none}
+  .wk-stage>.wk-wide{display:none}
+  /* затемнение: сверху под шапкой и снизу. 17.11: пол с красным светом и отражениями видно, как на компьютере —
+     темнеет только самый низ, а заголовок читается за счёт мягкой тени у букв */
+  .hero--wick .hero__shade{background:
+    linear-gradient(180deg,rgba(5,3,3,.75) 0%,rgba(5,3,3,0) 14%,rgba(5,3,3,0) 66%,rgba(6,2,3,.3) 82%,rgba(6,2,3,.72) 94%,#060203 100%)}
+  .hero--wick .eyebrow,.hero--wick .hero__title,.hero--wick .hero__lead{text-shadow:0 2px 6px rgba(0,0,0,.75),0 0 22px rgba(0,0,0,.6)}
+  /* у золотых букв (градиент) тень просвечивает сквозь букву — им тень отдельным слоем позади */
+  .hero--wick .hero__title .gold-text{text-shadow:none;filter:drop-shadow(0 2px 5px rgba(0,0,0,.8)) drop-shadow(0 0 16px rgba(0,0,0,.5))}
+  .hero--wick .hero__in{padding-top:calc(max(100svh,600px) - 230px);display:block}
+  .hero--wick .hero__copy{max-width:none;padding-bottom:0}
+  .hero .eyebrow{font-size:10px;letter-spacing:.3em;margin-bottom:12px}
+  .hero__title{font-size:clamp(36px,10.6vw,46px);margin-bottom:18px}
+  .hero__title .line--in{padding-left:.9em}
+  .hero__lead{font-size:17px;margin-bottom:26px}
+  .hero--wick .hero__cta{gap:16px;margin-bottom:30px}
+  .hero__small{font-size:12.5px;max-width:150px}
+  .facts li{padding:0 14px}
+  .facts b{font-size:27px;margin-bottom:6px}
+  .facts span{font-size:12px;display:block;line-height:1.35}
+  .hero--wick .tiles,.hero--wick .tiles[class]{grid-template-columns:1fr 1fr;width:100%;gap:10px;margin-top:30px}
+  .hero--wick .tile{padding:14px 12px;gap:10px}
+  .tile .ico{width:30px;height:30px}
+  .tile span{font-size:17px}
+  .tile i{font-size:16px}
+
+  /* ---------- предупреждение ---------- */
+  .warn-sec{padding:50px 0 10px}
+  .warn--big{padding:26px 22px}
+  .warn--big p{font-size:21px;line-height:1.4}
+  .warn__label{font-size:10px;letter-spacing:.24em}
+  .warn p{font-size:15.5px}
+
+  /* ---------- узнаёте себя ---------- */
+  .cards{grid-template-columns:1fr;gap:14px}
+  .card{min-height:0;padding:30px 24px 32px}
+  .card .ico{width:50px;height:50px;margin-bottom:18px}
+  .card h3{font-size:20px}
+
+  /* ---------- тест ---------- */
+  .quiz{padding:28px 20px 30px;border-radius:18px}
+  .quiz__top{gap:14px;margin-bottom:24px}
+  .quiz__count{font-size:11px;letter-spacing:.2em}
+  .quiz__q{font-size:26px;margin-bottom:20px}
+  .quiz__opts{grid-template-columns:1fr;gap:10px}
+  .opt{padding:16px 18px;font-size:15.5px}
+  .res__title{font-size:30px}
+  .res__price{font-size:40px}
+  .res__formtitle{font-size:24px}
+
+  /* ---------- цена: плашки в одну колонку ---------- */
+  .plaques{grid-template-columns:minmax(0,360px);gap:40px}
+  .plaque{padding:30px 24px 0;border-radius:26px}
+  .plaque__num{font-size:68px}
+  .plaque__val{font-size:34px;margin-top:8px}
+  .band{width:calc(100% + 72px);margin:18px -36px 14px;height:40px}
+  .band__foil{font-size:14px;letter-spacing:.26em;gap:9px}
+  .band__logo{height:24px}
+  .plaque__cap{font-size:15px}
+  .price-notes{grid-template-columns:1fr;margin-top:60px}
+  .note,.note:nth-child(2n){padding:24px 0;border-left:0}
+  .note h3{font-size:22px}
+  .doubt blockquote{font-size:25px}
+
+  /* как идёт дело: карточки друг на друга */
+  .stack{padding-bottom:10px}
+  .scard{display:block;height:auto;min-height:330px;top:calc(76px + var(--i) * 12px);margin-bottom:40px;padding:24px 20px 26px;border-radius:20px}
+  .scard__n{font-size:62px;margin-bottom:14px}
+  .scard__body h4{font-size:25px;margin-bottom:10px;padding-right:56px}
+  .scard__body p{font-size:15.5px}
+  .scard__body em{margin-top:16px;font-size:13.5px}
+  .scard__bm{right:18px;width:56px;height:118px;padding-bottom:26px}
+  .scard__bm img{width:46px}
+  .scard__step{position:static;display:block;margin-top:18px;font-size:10.5px;letter-spacing:.26em}
+
+  /* ---------- что я потеряю (светлый лист) ---------- */
+  .sheet{margin:0 8px;border-radius:26px}
+  .sheet.tx-b{padding-left:8px;padding-right:8px}          /* 129: поля листа внутри (см. style.css, .sheet.tx-b) */
+  .sheet.tx-b::before{inset:0 8px;border-radius:26px}
+  .fears__list li{grid-template-columns:40px 1fr;gap:12px;padding:22px 0}
+  .fears__list .n{font-size:26px}
+  .fears__list h3{font-size:22px}
+  .fears__list p{font-size:15px}
+  .fit__card{padding:24px 22px}
+  .fit__card h3{font-size:23px}
+
+  /* ---------- сомнения ---------- */
+  .doubts__grid{grid-template-columns:1fr;gap:34px;margin-bottom:70px}
+  .steps{grid-template-columns:1fr}
+
+  /* ---------- кто ведёт ---------- */
+  .proof__grid{gap:34px}
+  .arch{max-width:300px}
+  .proof__facts{flex-wrap:wrap;gap:18px 26px;margin:26px 0 34px}
+  .proof__facts b{font-size:26px}
+  .app__title{font-size:24px}
+  .app{grid-template-columns:1fr;gap:12px}
+  .cases{grid-template-columns:1fr;gap:14px;margin-top:56px}
+  .case{padding:24px 22px}
+
+  /* ---------- отзывы ---------- */
+  .reviews__grid{gap:40px}
+  .rating{padding:38px 22px}
+  .rating__num{font-size:96px}
+  .quote{padding:22px 22px}
+  .quote p{font-size:19px}
+
+  /* ---------- вопросы ---------- */
+  .acc summary{font-size:17px;padding:20px 0;gap:14px}
+  .acc summary::after{width:30px;height:30px}
+  .acc p{padding:0 0 22px;font-size:15.5px}
+
+  /* ---------- контакты и форма ---------- */
+  .contact{border-radius:0 0 30px 30px}
+  .contact__list{margin-top:28px}
+  .contact__list li{grid-template-columns:1fr;gap:4px;padding:14px 0}
+  .formbox{padding:22px 18px}
+  .warn--form{padding:16px 16px}
+  .warn--form p{font-size:14px}
+  .how span{padding:10px 16px;font-size:14.5px}
+  .lead .btn{width:100%}
+
+  /* ---------- подвал ---------- */
+  .ftr{position:relative;min-height:0;padding:60px 0 0}
+  .ftr__row{flex-direction:column;gap:34px;margin-top:34px}
+  .ftr__cols{flex-direction:column;gap:22px}
+  .ftr__cols ul{font-size:16px;gap:10px}
+  .ftr__legal{margin-top:30px;padding-bottom:16vw}
+  .warn--foot{margin-bottom:20px}
+
+  /* ---------- облегчение для телефона ---------- */
+  /* 17.11: покачивание и блик вернул — Игорь заметил, что без них сайт «застыл» */
+  .float{--fy:-4px;animation-play-state:paused}
+  .float.in-view{animation-play-state:running}
+  .cursor,.cursor__dot{display:none}
+  .tile,.hdr.is-solid{backdrop-filter:none;-webkit-backdrop-filter:none}
+  /* карточки снова полупрозрачные: сквозь них видно живой фон, размытие лёгкое */
+  .glass{backdrop-filter:blur(12px) saturate(130%);-webkit-backdrop-filter:blur(12px) saturate(130%)}   /* как на компьютере, размытие чуть меньше */
+  .hdr.is-solid{background:rgba(var(--bgr),.94)}
+  .tile{background:linear-gradient(160deg,rgba(var(--card1r),.85),rgba(var(--bgr),.92))}
+  .plaque{backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+}
+
+/* очень узкие телефоны (iPhone SE, старые Android) */
+@media (max-width:380px){
+  .h2{font-size:31px}
+  .hero__title{font-size:34px}
+  .facts li{padding:0 10px}
+  .facts b,.f3 .facts b{font-size:28px}   /* 129: правило .f3 перебивало размер для узких телефонов */
+  .tile span{font-size:15.5px}
+  .brand__name{font-size:17px}
+}

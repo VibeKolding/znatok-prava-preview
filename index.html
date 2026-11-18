@@ -1,0 +1,464 @@
+<!doctype html>
+<html lang="ru" class="no-js w1 f1 f3">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- 129: защита — страница грузит скрипты, стили, шрифты и картинки только из своей папки; чужой код браузер не выполнит -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta name="referrer" content="no-referrer">
+<link rel="icon" type="image/png" href="img/favicon-64.png"><!-- 129: значок во вкладке (без него браузер искал /favicon.ico и получал ошибку 404) -->
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<meta name="robots" content="noindex, nofollow"><!-- тестовая версия: не показывать в поиске, пока есть заглушки [..] -->
+<title>Знаток права — банкротство граждан, Омск</title>
+<meta name="description" content="Юрцентр «Знаток права», Омск, ул. Пушкина, 2. Узнайте за 2 минуты, подходит ли вам банкротство и сколько это стоит.">
+<link rel="preload" href="fonts/cormorant-garamond-500-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/manrope-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/style.css?v=s34">
+<link rel="stylesheet" href="css/wick.css?v=1117s">
+<link rel="stylesheet" href="css/mobile.css?v=s7">
+</head>
+<body>
+
+<!-- Заставка: золотой логотип загорается -->
+<div class="intro" id="intro" aria-hidden="true">
+  <div class="intro__logo">
+    <img src="img/logo-520.webp" alt="">
+    <span class="intro__shine"></span>
+  </div>
+</div>
+
+<!-- Лента через всю страницу (рисуется на холсте) -->
+<canvas class="livebg" id="livebg" aria-hidden="true"></canvas>
+<canvas class="ribbon" id="ribbon" aria-hidden="true"></canvas>
+<div class="seal" id="seal" aria-hidden="true"><img src="img/emblem-160.webp" alt=""></div>
+
+<header class="hdr" id="hdr">
+  <div class="hdr__in">
+    <a class="brand" href="#top" aria-label="Знаток права — на главную">
+      <img class="brand__mark" src="img/emblem-160.webp" alt="">
+      <span class="brand__txt">
+        <span class="brand__name">Знаток права</span>
+        <span class="brand__sub">юридический центр</span>
+      </span>
+    </a>
+    <nav class="nav" aria-label="Главное меню">
+      <a href="#sud">Через суд</a>
+      <a href="#mfc">Через МФЦ</a>
+      <a href="#price">Цена</a>
+      <a href="#razbory">Ситуации</a>
+      <a href="#contacts">Контакты</a>
+    </nav>
+    <a class="hdr__addr" href="#contacts">ул. Пушкина, 2</a>
+    <button class="burger" id="burger" type="button" aria-label="Меню" aria-expanded="false" aria-controls="mnav"><i></i><i></i><i></i></button>
+  </div>
+</header>
+<nav class="mnav" id="mnav" aria-label="Меню">
+  <a href="#sud">Через суд</a>
+  <a href="#mfc">Через МФЦ</a>
+  <a href="#price">Цена</a>
+  <a href="#razbory">Ситуации</a>
+  <a href="#test">Тест за 2 минуты</a>
+  <a href="#contacts">Контакты</a>
+  <a class="mnav__addr" href="#contacts">Омск, ул. Пушкина, 2</a>
+</nav>
+
+<main id="top">
+
+  <!-- 1. ПЕРВЫЙ ЭКРАН -->
+  <section class="hero hero--wick" id="hero" data-bg="#050303,#4A0606,#E8C48A">
+    <div class="hero__bg">
+      <!-- Постер по образцу Джона Уика: красный свет снизу, мокрый пол, «ЗНАТОК / ЗНАТОК / ПРАВА» -->
+      <div class="wk-scene"><div class="wk-scene-in">
+      <div class="wk-wall" aria-hidden="true"></div>
+            <div class="wk-floorband" aria-hidden="true"></div>
+      <!-- 17.11: фон 16:9 на весь первый экран (утверждён Игорем на дубле 114) -->
+      <img class="wk-bg169" src="img/bg-169.webp" fetchpriority="high" alt="" aria-hidden="true">
+      <div class="wk-fog" aria-hidden="true"><i class="wk-fog__a"></i><i class="wk-fog__b"></i></div>
+      <div class="wk-stage"><div class="wk-zoom">
+        <img class="wk-patch" src="img/wick2-refl.webp" alt="" aria-hidden="true">
+        <div class="wk-glow" aria-hidden="true"></div>
+        <svg class="wk-svg" viewBox="0 0 1116 2000" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <g class="wk-fillg"><text class="wk-t wk-fill" x="260" y="680" textLength="640" lengthAdjust="spacingAndGlyphs" font-size="630">ЗНАТОК</text></g>
+        </svg>
+        <img class="wk-front" src="img/wick2-nurlan-burg.webp" fetchpriority="high" alt="Нурлан, руководитель юрцентра «Знаток права»">
+        <svg class="wk-svg wk-over" viewBox="0 0 1116 2000" preserveAspectRatio="xMidYMid slice" aria-label="Знаток права">
+          <text class="wk-t wk-stroke" x="260" y="1130" textLength="640" lengthAdjust="spacingAndGlyphs" font-size="630">ЗНАТОК</text>
+          <text class="wk-t wk-stroke" x="260" y="1580" textLength="640" lengthAdjust="spacingAndGlyphs" font-size="630">ПРАВА</text>
+        </svg>
+      </div></div>
+      <div class="wk-mist" aria-hidden="true"><i></i></div>
+      </div></div>
+      <canvas class="hero__seq" id="heroSeq" aria-hidden="true"></canvas>
+      <div class="hero__shade" aria-hidden="true"></div>
+    </div>
+    <!-- Полёт камеры заканчивается на весах, буквы «ЗНАТОК ПРАВА» собираются -->
+    <div class="brandword" id="brandword" aria-hidden="true" hidden>
+      <div class="brandword__line">Знаток права</div>
+      <p class="brandword__sub">юридический центр · Омск · с 2019 года</p>
+    </div>
+    <div class="wrap hero__in">
+      <div class="hero__copy">
+        <h1 class="hero__title">
+          <span class="line"><span>Долги, просрочки,</span></span>
+          <span class="line line--in"><span class="gold-text shimmer">приставы?</span></span>
+        </h1>
+        <p class="hero__lead reveal">Узнайте за 2 минуты, подходит ли вам банкротство и&nbsp;сколько это стоит.</p>
+        <div class="hero__cta reveal">
+          <a class="btn btn--brass" href="#test"><i class="dmd" aria-hidden="true"></i><span>Проверить</span><i class="dmd" aria-hidden="true"></i></a>
+          <p class="hero__small">3 вопроса и ответ сразу. Без номера телефона</p>
+        </div>
+        <ul class="facts reveal">
+          <li><b>2019</b><span>работаем с этого года</span></li>
+          <li><b>30 мин</b><span>бесплатная консультация</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 137: ряд из четырёх плиток-ссылок убран: он повторял меню сверху (разбор по Исмаилу, 17.11) -->
+  </section>
+
+  <!-- 2. ПРЕДУПРЕЖДЕНИЕ (закон, слово в слово) -->
+  <div class="tx-wrap" id="tx1">
+  <section class="warn-sec" data-rib="right" data-bg="#0B0304,#4E0E1C,#E4AE88">
+    <div class="wrap">
+      <div class="warn warn--big" role="note">
+        <span class="warn__label">Обязательное предупреждение</span>
+        <p>Банкротство влечет негативные последствия, в том числе ограничения на получение кредита и повторное банкротство в течение пяти лет. Предварительно обратитесь к своему кредитору и в МФЦ.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. УЗНАЁТЕ СЕБЯ -->
+  <section class="sec pains" id="razbory" data-rib="left" data-bg="#0C0503,#4A2010,#E09A66">
+    <div class="wrap chap"><span>Ситуации</span><span>Глава 01</span></div>
+    <div class="wrap">
+      <header class="sec__head">
+                <h2 class="h2 split"><span class="l">Узнаёте</span><span class="l l--1"><em>себя?</em></span></h2>
+        <p class="sec__lead">Если это про вас, ниже всё по порядку: риски, сроки, цена.</p>
+      </header>
+      <div class="cards">
+        <div class="card" style="--lx:30%;--ly:20%">
+          <svg class="ico" viewBox="0 0 48 48"><rect x="5" y="12" width="38" height="25" rx="3"/><path d="M5 19h38M11 30h8"/><path d="M33 26v-3a4 4 0 0 1 8 0v3M31 26h12v9H31z"/></svg>
+          <h3>Приставы арестовали карту</h3><i class="dash"></i>
+          <p>Зарплата приходит и тут же уходит в счёт долга.</p>
+        </div>
+        <div class="card" style="--lx:70%;--ly:15%">
+          <svg class="ico" viewBox="0 0 48 48"><path d="M14 6h8l3 9-5 3a24 24 0 0 0 10 10l3-5 9 3v8a3 3 0 0 1-3 3A33 33 0 0 1 11 9a3 3 0 0 1 3-3z"/><path d="M30 6a12 12 0 0 1 12 12M30 12a6 6 0 0 1 6 6"/></svg>
+          <h3>Звонят взыскатели</h3><i class="dash"></i>
+          <p>Каждый день, на работу и родным.</p>
+        </div>
+        <div class="card" style="--lx:50%;--ly:25%">
+          <svg class="ico" viewBox="0 0 48 48"><path d="M38 18A15 15 0 0 0 10 16M10 30a15 15 0 0 0 28 2"/><path d="M38 8v10H28M10 40V30h10"/></svg>
+          <h3>Берёте заём, чтобы закрыть заём</h3><i class="dash"></i>
+          <p>Снежный ком растёт каждый месяц.</p>
+        </div>
+        <div class="card" style="--lx:25%;--ly:30%">
+          <svg class="ico" viewBox="0 0 48 48"><path d="M20 30 8 26l2-3 12 1 8-12c2-3 6-3 6 0l-6 13 10 6v4l-11-3-6 8h-3l2-9"/><path d="M6 6l36 36"/></svg>
+          <h3>Не выпускают за границу</h3><i class="dash"></i>
+          <p>Запрет на выезд из-за долга.</p>
+        </div>
+        <div class="card" style="--lx:65%;--ly:20%">
+          <svg class="ico" viewBox="0 0 48 48"><path d="M6 22 24 8l18 14M11 19v21h26V19"/><path d="M24 22l7 3v5c0 4-3 7-7 8-4-1-7-4-7-8v-5z"/></svg>
+          <h3>Боитесь потерять имущество</h3><i class="dash"></i>
+          <p>Квартира, машина, дача.</p>
+        </div>
+        <div class="card" style="--lx:45%;--ly:18%">
+          <svg class="ico" viewBox="0 0 48 48"><rect x="7" y="10" width="34" height="30" rx="3"/><path d="M7 18h34M15 6v8M33 6v8M24 24v7M24 35v1"/></svg>
+          <h3>Просрочки уже несколько месяцев</h3><i class="dash"></i>
+          <p>И непонятно, суд или МФЦ.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  </div><!-- /tx1 -->
+
+  <!-- 6. КАКИЕ ПОСЛЕДСТВИЯ (137: глава переписана по 5 пунктам, файл ПРАВКИ) -->
+  <section class="sec fears sheet" id="posledstviya" data-tx-one data-rib="right" data-bg="#0C0503,#4A2010,#E09A66">
+    <div class="wrap chap"><span>Последствия</span><span>Глава 02</span></div>
+    <div class="wrap">
+      <header class="sec__head">
+                <h2 class="h2 split"><span class="l">Какие</span><span class="l l--1"><em>последствия?</em></span></h2>
+      </header>
+      <div class="fears__grid">
+        <ol class="fears__list">
+          <li><span class="n">I</span><div><h3>Жильё и имущество</h3><p>Единственное жильё не забирают. С ипотечной квартирой сложнее: её стараемся сохранить через мировое соглашение с банком.</p><p>Если кроме жилья есть машина, дача или доля, их могут продать на торгах. Бывают исключения: например, одна машина на семью при инвалидности или у мамы-одиночки. Сделки за последние три года суд может отменить.</p><p>Что из этого касается вас, скажем на консультации до договора.</p></div></li>
+          <li><span class="n">II</span><div><h3>Зарплата и пенсия</h3><p>Всю не заберут: прожиточный минимум остаётся всегда. На время процедуры карту контролирует управляющий и раз в месяц выдаёт эти деньги.</p></div></li>
+          <li><span class="n">III</span><div><h3>Кредиты</h3><p>Взять кредит после процедуры можно. Просто пять лет в анкете нужно будет указывать, что вы прошли банкротство.</p></div></li>
+          <li><span class="n">IV</span><div><h3>Повторное банкротство</h3><p>Снова пройти его можно не раньше чем через пять лет.</p></div></li>
+          <li><span class="n">V</span><div><h3>Что процедура не отменяет</h3><p>Например, алименты, возмещение морального вреда и уголовные штрафы: их придётся платить и после процедуры.</p></div></li>
+        </ol>
+        <div class="fit">
+          <div class="fit__card glass">
+            <h3>Кому подходит</h3>
+            <p class="fit__lead">Почти всем: важен не статус, а имущество. Среди наших клиентов:</p>
+            <ul><li>пенсионеры</li><li>мамы в декрете</li><li>самозанятые и бывшие ИП</li><li>военные и сотрудники полиции, и никого из них не уволили</li><li>люди без официального дохода</li></ul>
+          </div>
+          <div class="fit__card glass fit__card--no">
+            <h3>Кому не подходит</h3>
+            <p class="fit__lead fit__lead--only">Тем, у кого долг сопоставим с&nbsp;ценой процедуры: выгоднее закрыть его самому. Об этом мы сообщаем на консультации.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. СОМНЕНИЯ И ШАГИ (137: заголовок и три страха переписаны, файл ПРАВКИ — глава 03) -->
+  <section class="sec doubts" data-rib="left" data-bg="#0C0604,#3E2214,#E8C48A">
+    <div class="wrap chap"><span>Сомнения</span><span>Глава 03</span></div>
+    <div class="wrap">
+      <header class="sec__head">
+                <h2 class="h2 split"><span class="l">Чего</span><span class="l l--1"><em>боятся</em></span><span class="l l--2">чаще всего</span></h2>
+      </header>
+      <div class="doubts__grid">
+        <figure class="doubt"><blockquote>«Банк пугает, что привлекут за мошенничество»</blockquote><figcaption>По закону банкротство — гражданское дело в арбитражном суде, а не уголовное. Риски есть только в том случае, если долги набирали специально: например, все кредиты взяли в один день. Такое видно сразу, и мы скажем об этом на консультации.</figcaption></figure>
+        <figure class="doubt"><blockquote>«Заплачу, а дело не сдвинется?»</blockquote><figcaption>В нашем приложении видно, на какой стадии дело. Если мы не работаем, вы это увидите и можете дальше не платить. А если суд не признает вас банкротом, деньги вернём: это записано в договоре.</figcaption></figure>
+        <figure class="doubt"><blockquote>«Нет сразу всей суммы»</blockquote><figcaption>Сразу всю сумму платить не нужно: все наши клиенты платят в рассрочку, до года. Сколько выходит в месяц, видно в главе <a href="#price">«Цена и рассрочка»</a>.</figcaption></figure>
+        <figure class="doubt"><blockquote>«Скажут, что всё возможно, а на деле нет»</blockquote><figcaption>Мы не обещаем, а даём прогноз. На консультации назовём три исхода: худший, лучший и самый вероятный. Прогноз строим на наших прошлых делах, их можно проверить самому по номерам в главе <a href="#dokazatelstva">«Доказательства»</a>.</figcaption></figure>
+      </div>
+
+      <h3 class="h2 steps__title"><span class="l">Как проходит</span><span class="l l--1"><em>банкротство</em></span></h3>
+      <div class="stack" id="stack">
+        <article class="scard" style="--i:0">
+          <span class="scard__n">01</span>
+          <div class="scard__body"><h4>Консультация 30 минут</h4><p>Бесплатно в офисе или по телефону. Спрашиваем, сколько вы должны, какой у вас доход, какое есть имущество и семейное положение.</p><em>В удобный вам день</em></div>
+          <span class="scard__bm" aria-hidden="true"><img src="img/logo-160.webp" alt="" loading="lazy" decoding="async"></span>
+          <span class="scard__step">этап 1 из 5</span>
+        </article>
+        <article class="scard" style="--i:1">
+          <span class="scard__n">02</span>
+          <div class="scard__body"><h4>Заключаем договор</h4><p>Подписываем договор и подключаем вас к нашему приложению. Если вы в другом городе, пришлём договор и образец доверенности.</p><em>Обычно в день консультации</em></div>
+          <span class="scard__bm" aria-hidden="true"><img src="img/logo-160.webp" alt="" loading="lazy" decoding="async"></span>
+          <span class="scard__step">этап 2 из 5</span>
+        </article>
+        <article class="scard" style="--i:2">
+          <span class="scard__n">03</span>
+          <div class="scard__body"><h4>Подаём в суд</h4><p>Отправляем заявление в арбитражный суд онлайн, ехать в суд вам не нужно.</p><em>После первого взноса</em></div>
+          <span class="scard__bm" aria-hidden="true"><img src="img/logo-160.webp" alt="" loading="lazy" decoding="async"></span>
+          <span class="scard__step">этап 3 из 5</span>
+        </article>
+        <article class="scard" style="--i:3">
+          <span class="scard__n">04</span>
+          <div class="scard__body"><h4>Забираем дела у приставов</h4><p>Приставы закрывают производства, звонки взыскателей прекращаются.</p><em>Каждый шаг видно в приложении</em></div>
+          <span class="scard__bm" aria-hidden="true"><img src="img/logo-160.webp" alt="" loading="lazy" decoding="async"></span>
+          <span class="scard__step">этап 4 из 5</span>
+        </article>
+        <article class="scard" style="--i:4">
+          <span class="scard__n">05</span>
+          <div class="scard__body"><h4>Суд закрывает дело</h4><p>Если имущества нет, весь путь занимает от 8–9 месяцев. Если есть имущество, которое нужно продать или сохранить, около 1,5–2 лет.</p></div>
+          <span class="scard__bm" aria-hidden="true"><img src="img/logo-160.webp" alt="" loading="lazy" decoding="async"></span>
+          <span class="scard__step">этап 5 из 5</span>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. КТО ВЕДЁТ ДЕЛО -->
+  <section class="sec proof" id="dokazatelstva" data-rib="right" data-bg="#0B0304,#4E0E1C,#E4AE88">
+    <div class="wrap chap"><span>Доказательства</span><span>Глава 04</span></div>
+    <div class="wrap proof__grid">
+      <figure class="arch">
+        <img src="img/nurlan-portrait-suit.webp" loading="lazy" decoding="async" alt="Нурлан, юрист «Знатока права»">
+        <figcaption>Нурлан · руководитель и юрист</figcaption>
+      </figure>
+      <div class="proof__copy">
+                <h2 class="h2 split"><span class="l">Кто ведёт</span><span class="l l--1"><em>дело</em></span></h2>
+        <p class="sec__lead"><span class="ph">[пара фраз о Нурлане — согласовать с Нурланом]</span></p>
+        <ul class="proof__facts"><li><b>с 2019</b> года работаем</li><li><b>Омск</b> офис на ул.&nbsp;Пушкина, 2</li><li><b>вся Россия</b> дистанционно</li></ul>
+        <h3 class="app__title">Своё приложение для клиентов</h3>
+        <div class="app">
+          <div class="app__item glass"><h4>Стадия дела</h4><p>На каком этапе и что дальше.</p></div>
+          <div class="app__item glass"><h4>График платежей</h4><p>Сколько и когда, что оплачено.</p></div>
+          <div class="app__item glass"><h4>Ответы на тревоги</h4><p>Что делать, если позвонил пристав или пришло письмо из банка.</p></div>
+          <div class="app__item glass"><h4>Переписка и документы</h4><p>Все бумаги и вопросы юристу в одном месте.</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="wrap">
+      <div class="cases">
+        <article class="case glass"><span class="case__no">Дело № А46-<span class="ph">[____]</span>/20<span class="ph">[__]</span></span><p><b>Было:</b> <span class="ph">[долг, приставы]</span></p><p><b>Сделали:</b> <span class="ph">[…]</span></p><p><b>Итог:</b> <span class="ph">[…]</span></p></article>
+        <article class="case glass"><span class="case__no">Дело № А46-<span class="ph">[____]</span>/20<span class="ph">[__]</span></span><p><b>Было:</b> <span class="ph">[долг, приставы]</span></p><p><b>Сделали:</b> <span class="ph">[…]</span></p><p><b>Итог:</b> <span class="ph">[…]</span></p></article>
+        <article class="case glass"><span class="case__no">Дело № А46-<span class="ph">[____]</span>/20<span class="ph">[__]</span></span><p><b>Было:</b> <span class="ph">[долг, приставы]</span></p><p><b>Сделали:</b> <span class="ph">[…]</span></p><p><b>Итог:</b> <span class="ph">[…]</span></p></article>
+      </div>
+      <p class="cases__check">Каждое дело можно проверить самому: откройте <a href="https://kad.arbitr.ru/" target="_blank" rel="noopener noreferrer">kad.arbitr.ru</a> и введите номер дела в поиск.</p>
+    </div>
+  </section>
+
+  <!-- 9. ОТЗЫВЫ -->
+  <section class="sec reviews" data-rib="left" data-bg="#0C0503,#4A2010,#E09A66">
+    <div class="wrap chap"><span>Отзывы</span><span>Глава 05</span></div>
+    <div class="wrap reviews__grid">
+      <div class="rating backlit">
+        <span class="rating__src">2ГИС</span>
+        <b class="rating__num gold-text">5,0</b>
+        <span class="rating__stars" aria-hidden="true">★★★★★</span>
+        <span class="rating__meta">15 оценок · 10 отзывов · на 12.11.2026</span>
+        <span class="rating__meta">Яндекс Карты — <span class="ph">[карточка в работе]</span></span>
+      </div>
+      <div class="quotes">
+                <h2 class="h2 split"><span class="l">Словами</span><span class="l l--1"><em>клиентов</em></span></h2>
+        <blockquote class="quote glass"><p class="ph">[настоящий отзыв из 2ГИС]</p><cite>— 2ГИС</cite></blockquote>
+        <blockquote class="quote glass"><p class="ph">[настоящий отзыв из 2ГИС]</p><cite>— 2ГИС</cite></blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. ВОПРОСЫ -->
+  <section class="sec faq" data-rib="right" data-bg="#0C0604,#3E2214,#E8C48A">
+    <div class="wrap chap"><span>9 вопросов</span><span>Глава 06</span></div>
+    <div class="wrap faq__grid">
+      <header class="sec__head">
+                <h2 class="h2 split"><span class="l">Вопросы</span><span class="l l--1"><em>и ответы</em></span></h2>
+      </header>
+      <div class="acc" id="acc">
+        <details><summary>Сколько длится процедура?</summary><p>Если имущества нет, то 8–9 месяцев. Если есть имущество, которое нужно продать или сохранить, то около 1,5–2 лет.</p></details>
+        <details><summary>Зависит ли цена от суммы долга?</summary><p>Как правило, нет: цена одна и та же, должны вы миллион или три. На цену влияет имущество: если его нужно продать или сохранить, работы больше и процедура дороже. Сколько выйдет в вашем случае, видно в главе <a href="#price">«Цена и рассрочка»</a>.</p></details>
+        <details><summary>Можно ли начать, если просрочек ещё нет?</summary><p>Да. По закону заявление можно подать заранее, если очевидно, что скоро платить будет нечем: например, вы потеряли работу или заболели. Подходит ли ваш случай, скажем на консультации.</p></details>
+        <details><summary>Какие долги входят в процедуру?</summary><p>Почти все: кредиты, микрозаймы, долги за ЖКХ, по распискам, налоги и штрафы. Исключения перечислены в главе <a href="#posledstviya">«Последствия»</a>.</p></details>
+        <details><summary>Узнают ли родные и на работе?</summary><p>Сами мы никому ничего не сообщаем. С работы за банкротство не увольняют. По закону сведения о процедуре публикуются на сайте Федресурса.</p></details>
+        <details><summary>Проверят ли мужа или жену?</summary><p>Да, но только то, что вы купили в браке: по закону это общее имущество. Если такое есть, стараемся его сохранить, например показываем, что вещь купили на подаренные деньги.</p></details>
+        <details><summary>Можно ли выезжать за границу?</summary><p>Да. Когда начинается процедура, приставы закрывают производства и снимают запрет на выезд. Ограничить выезд на время процедуры может только суд.</p></details>
+        <details><summary>Нужно ли приезжать в офис, если я живу в другом городе?</summary><p>Нет. Мы работаем с клиентами по всей России дистанционно: консультируем по телефону, договор присылаем, справки вы получаете через Госуслуги.</p></details>
+        <details><summary>Смогу ли я потом устроиться на работу и открыть счёт в банке?</summary><p>Да. После процедуры можно официально работать и получать зарплату на свою карту. Запрета открывать счёт нет. Ограничения есть только на руководящие должности: например, три года нельзя быть директором компании.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ЦЕНА — 137: перенесена в конец, перед тестом (Игорь: цена → тест → Нурлан).: стеклянные плашки в ленте, выходят из дыма -->
+  <section class="sec price-sec" id="price" data-rib="left" data-bg="#0B0304,#4E0E1C,#E4AE88">
+    <div class="wrap chap"><span>Цена и рассрочка</span><span>Глава 07</span></div>
+    <canvas class="smoke" id="smoke" aria-hidden="true"></canvas>
+    <div class="wrap">
+      <header class="sec__head sec__head--c">
+                <h2 class="h2 split"><span class="l l--l">Сколько стоит</span><span class="l l--r"><em>банкротство</em></span></h2>
+      </header>
+
+      <div class="plaques" id="sud">
+        <article class="plaque" data-i="0">
+          <p class="plaque__title">Вся процедура под ключ через суд</p>
+          <p class="plaque__val has-note">150&nbsp;000&nbsp;₽</p>
+          <p class="plaque__note">*если у вас нет имущества. С&nbsp;имуществом цена выше, подробнее ниже</p>
+          <div class="band"><span class="band__foil"><img class="band__logo" src="img/emblem-160.webp" alt="">Знаток права</span></div>
+        </article>
+        <article class="plaque" data-i="1">
+          <p class="plaque__title">Первый взнос</p>
+          <p class="plaque__val has-note">30&nbsp;000&nbsp;₽</p>
+          <p class="plaque__note">*идут на депозит суда и подачу заявления</p>
+          <div class="band"><span class="band__foil"><img class="band__logo" src="img/emblem-160.webp" alt="">Знаток права</span></div>
+        </article>
+        <article class="plaque" data-i="2">
+          <p class="plaque__title">Рассрочка на оставшуюся сумму</p>
+          <p class="plaque__val">до 12&nbsp;месяцев</p>
+          <div class="band"><span class="band__foil"><img class="band__logo" src="img/emblem-160.webp" alt="">Знаток права</span></div>
+        </article>
+        <article class="plaque" data-i="3">
+          <p class="plaque__title">Платёж в месяц</p>
+          <p class="plaque__val has-note">10&nbsp;000–15&nbsp;000&nbsp;₽</p>
+          <p class="plaque__note">*обычно; точную сумму подберём на консультации</p>
+          <div class="band"><span class="band__foil"><img class="band__logo" src="img/emblem-160.webp" alt="">Знаток права</span></div>
+        </article>
+      </div>
+
+      <div class="price-notes">
+        <div class="note"><h3>Из чего складывается цена</h3><p>60&nbsp;000&nbsp;₽ из неё — обязательные расходы по закону: оплата финансового управляющего, которого назначает суд, публикации о процедуре на Федресурсе и письма кредиторам. Остальное — наша работа на всё время процедуры.</p></div>
+        <div class="note"><h3>Когда цена выше 150&nbsp;000&nbsp;₽</h3><p>Сколько бы вы ни были должны, цена одна. Дороже, только если есть машина, дача или доля:</p><ul><li>продать имущество можно только через торги, а это отдельные расходы на торговую площадку;</li><li>сохранить имущество дольше: процедура идёт не 8–9 месяцев, а 1,5–2 года, и всё это время мы ведём ваше дело.</li></ul><p>Тогда цена обычно до 300&nbsp;000&nbsp;₽. Точную сумму назовём на бесплатной консультации.</p></div>
+        <div class="note" id="mfc"><h3>Через МФЦ — 30&nbsp;000&nbsp;₽ под ключ, 6&nbsp;месяцев</h3><p>Если долг от 25 тысяч до 1 миллиона и приставам взыскать нечего.</p></div>
+      </div>
+      <!-- 137: предупреждение оставлено в двух местах — под первым экраном и у формы в «Связаться» (решение Игоря 17.11) -->
+    </div>
+  </section>
+
+  <!-- ТЕСТ — 137: перенесён в конец, перед «Связаться» (порядок Исмаила: доверие → прогрев → оффер) -->
+  <section class="sec test-sec" id="test" data-rib="right" data-bg="#0C0604,#3E2214,#E8C48A">
+    <div class="wrap chap"><span>Тест · 3 вопроса</span><span>Глава 08</span></div>
+    <div class="wrap">
+      <header class="sec__head sec__head--c">
+                <h2 class="h2 split"><span class="l l--l">Подходит ли вам</span><span class="l l--r"><em>банкротство?</em></span></h2>
+      </header>
+      <div class="quiz backlit" id="quiz">
+        <div class="quiz__top">
+          <span class="quiz__count">Вопрос <b id="qNum">01</b> / 03</span>
+          <span class="quiz__bar"><i id="qBar"></i></span>
+        </div>
+        <div class="quiz__body" id="qBody"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11. СВЯЗАТЬСЯ -->
+  <div class="endwrap">
+  <section class="sec contact" id="contacts" data-bg="#0B0304,#4E0E1C,#E4AE88">
+    <div class="wrap chap"><span>Связаться</span><span>Глава 09</span></div>
+    <div class="wrap contact__grid">
+      <div class="contact__info">
+                <h2 class="h2 split"><span class="l">Бесплатная</span><span class="l l--1">консультация</span><span class="l l--2"><em>с Нурланом</em></span></h2>
+        <div class="vapor-brand" aria-hidden="true"></div>
+        <ul class="contact__list">
+          <li><span>Телефон</span><b class="ph">[телефон]</b></li>
+          <li><span>MAX</span><b class="ph">[ссылка]</b></li>
+          <li><span>Адрес</span><b>Омск, ул. Пушкина, 2</b></li>
+          <li><span>Часы</span><b>Пн–Пт 10:00–18:00 <span class="ph">[выходные уточнить]</span></b></li>
+        </ul>
+      </div>
+      <div class="formbox glass">
+        <div class="warn warn--form" role="note">
+          <p>Банкротство влечет негативные последствия, в том числе ограничения на получение кредита и повторное банкротство в течение пяти лет. Предварительно обратитесь к своему кредитору и в МФЦ.</p>
+        </div>
+        <form class="lead" data-lead method="post">
+          <label class="fld"><span>Имя</span><input name="name" required autocomplete="given-name"></label>
+          <label class="fld"><span>Телефон</span><input name="phone" required type="tel" inputmode="tel" autocomplete="tel" placeholder="+7" pattern="[0-9+\(\)\s\-]{10,20}" title="Номер телефона, например +7 999 123-45-67"></label>
+          <fieldset class="how"><legend>Как удобнее связаться</legend>
+            <label><input type="radio" name="how" value="call" checked><span>Позвонить</span></label>
+            <label><input type="radio" name="how" value="max"><span>MAX</span></label>
+          </fieldset>
+          <label class="agree"><input type="checkbox" name="agree" required><span>Даю согласие на обработку персональных данных согласно <a href="#politika">политике</a></span></label>
+          <button class="btn btn--gold" type="submit"><span>Отправить заявку</span></button>
+          <p class="lead__msg" role="status"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- подвал лежит под последней главой: она уезжает вверх и открывает его -->
+  <footer class="ftr" id="politika">
+    <div class="wrap ftr__top">
+      <div class="ftr__row">
+        <a class="brand" href="#top"><img class="brand__mark" src="img/emblem-160.webp" alt=""><span class="brand__txt"><span class="brand__name">Знаток права</span><span class="brand__sub">ООО «ЮЦ Знаток права»</span></span></a>
+        <div class="ftr__cols">
+          <ul><li><a class="vf" href="#sud">Через суд</a></li><li><a class="vf" href="#mfc">Через МФЦ</a></li><li><a class="vf" href="#price">Цена</a></li></ul>
+          <ul><li><a class="vf" href="#razbory">Ситуации</a></li><li><a class="vf" href="#test">Тест</a></li><li><a class="vf" href="#contacts">Контакты</a></li></ul>
+          <ul class="ftr__req"><li>ИНН <span class="ph">[ИНН]</span></li><li>ОГРН <span class="ph">[ОГРН]</span></li><li>Омск, ул. Пушкина, 2</li></ul>
+        </div>
+      </div>
+      <p class="ftr__legal"><a href="#politika">Политика обработки персональных данных <span class="ph">[текст будет]</span></a></p>
+    </div>
+    <div class="ftr__giant" aria-hidden="true">Знаток права</div>
+  </footer>
+  </div>
+</main>
+
+<!-- Монограмма ленты: «ЗП» в лавровых веточках -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="foil" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FBEBC0"/><stop offset=".45" stop-color="#D9B46A"/><stop offset=".7" stop-color="#A97F3A"/><stop offset="1" stop-color="#EBCB87"/>
+    </linearGradient>
+    <symbol id="mono" viewBox="0 0 40 28">
+      <g fill="url(#foil)">
+        <text x="20" y="20" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="17" font-weight="500" letter-spacing="-1">ЗП</text>
+        <path d="M6 24c1-6 3-10 7-13-3 4-4 8-4 13zM4 18c2-1 4 0 5 2-2 0-4 0-5-2zM5 13c2-1 4 0 5 2-2 1-4 0-5-2zM34 24c-1-6-3-10-7-13 3 4 4 8 4 13zM36 18c-2-1-4 0-5 2 2 0 4 0 5-2zM35 13c-2-1-4 0-5 2 2 1 4 0 5-2z"/>
+      </g>
+    </symbol>
+  </defs>
+</svg>
+
+<script src="vendor/gsap.min.js"></script>
+<script src="vendor/ScrollTrigger.min.js"></script>
+<script src="vendor/lenis.min.js"></script>
+<script src="js/text-fx.js?v=s2"></script>
+<script src="js/transitions.js?v=s13"></script>
+<script src="js/main.js?v=s21"></script>
+<script src="js/wick-live.js?v=s2"></script>
+
+</body>
+</html>
