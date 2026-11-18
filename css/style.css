@@ -727,7 +727,7 @@ button,input{font:inherit;color:inherit}
   background:radial-gradient(70% 60% at 50% 42%,#F6E0B4,#D9A46C 38%,#8A3A2C 72%,#4E0E1C 100%)}
 /* вариант 1: арка с портретом — та же арка, что в главе */
 .tx-door1{position:fixed;inset:0;z-index:7;pointer-events:none}
-.tx-door1__arch{position:absolute;margin:0;overflow:hidden;background:radial-gradient(80% 60% at 50% 30%,var(--plum-2),var(--bg-2));
+.tx-door1__arch{position:absolute;margin:0;overflow:hidden;will-change:transform;background:radial-gradient(80% 60% at 50% 30%,var(--plum-2),var(--bg-2));
   box-shadow:0 0 0 1px rgba(var(--goldr),.55),0 0 0 10px rgba(var(--bgr),.9),0 0 0 11px rgba(var(--goldr),.25),0 50px 90px -40px rgba(0,0,0,.9)}
 .tx-door1__arch img{position:absolute;inset:auto 0 0 0;width:100%;height:100%;object-fit:cover;object-position:50% 10%}
 .tx-door1__arch figcaption{position:absolute;left:0;right:0;bottom:0;padding:60px 20px 22px;text-align:center;font-size:13px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold-lt);
@@ -953,3 +953,5 @@ button,input{font:inherit;color:inherit}
 /* 137 (18.11): подсказка под вопросом теста */
 .quiz__hint{color:var(--muted);font-size:16px;margin:-18px 0 26px}
 @media (max-width:760px){.quiz__hint{font-size:14.5px;margin:-12px 0 20px}}
+/* 18.11: у глав далеко за экраном фоновые анимации на паузе (класс ставит main.js) — браузер не пересчитывает их каждый кадр */
+.anim-off,.anim-off *,.anim-off *::before,.anim-off *::after{animation-play-state:paused!important}

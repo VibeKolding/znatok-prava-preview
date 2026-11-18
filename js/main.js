@@ -22,9 +22,9 @@
       prev = t;
       if (fr.length >= 90) {
         fr.sort((a, b) => a - b);
-        bad = fr[72] > 24 ? bad + 1 : 0;      // 80 % кадров дольше 24 мс — меньше ~40 кадров в секунду
+        bad = fr[72] > 40 ? bad + 1 : 0;      // 80 % кадров дольше 40 мс — меньше 25 кадров в секунду (18.11: было 24 мс — включался зря)
         fr = [];
-        if (bad >= 2) return goLite();
+        if (bad >= 3) return goLite();
       }
       requestAnimationFrame(f);
     };
@@ -468,7 +468,7 @@
 
   // 17.11: на телефоне лента рисуется 30 раз в секунду вместо 60 — движение то же, нагрузка вдвое меньше
   let rbTick = 0;
-  gsap.ticker.add((t) => { time = t; rbTick++; if (rbTick % (LITE.on ? 3 : RW < 40 ? 2 : 1)) return; draw(); });   // 18.11: в лёгком режиме 20 раз в секунду
+  gsap.ticker.add((t) => { time = t; rbTick++; if (RW < 40 && (rbTick & 1)) return; draw(); });   // 18.11: частоту ленты лёгкий режим не трогает — рывками выглядело деревянно
   let rbT;
   const rebuild = () => { clearTimeout(rbT); rbT = setTimeout(buildRibbon, 120); };
   addEventListener('resize', rebuild);
@@ -777,15 +777,14 @@
     const secs = [...document.querySelectorAll('[data-bg]')].map(el => ({ el, c: el.dataset.bg.split(',').map(hex) }));
     let cur = secs[0].c.map(a => a.slice());
     // 16.11 ускорение: дымка мягкая, считать её в полном разрешении незачем — четверть точек, растягивает браузер
-    const size = () => { const k = LITE.on ? .4 : phone() ? .55 : .7; cv.width = Math.round(innerWidth * k); cv.height = Math.round(innerHeight * k); gl.viewport(0, 0, cv.width, cv.height); };
+    const size = () => { const k = phone() ? .55 : .7; cv.width = Math.round(innerWidth * k); cv.height = Math.round(innerHeight * k); gl.viewport(0, 0, cv.width, cv.height); };
     size(); addEventListener('resize', size);
     cv.classList.add('is-on');
     const heroEl = document.getElementById('hero');
     let tick = 0, mc = 0, tops = null, heroB = 0;
-    LITE.cb.push(size);
     gsap.ticker.add(t => {
       // 16.11 ускорение: 30 кадров в секунду вместо 60 и ничего не считаем, пока первый экран закрывает весь фон
-      if ((tick++ % (LITE.on ? 4 : 2)) || document.hidden) return;   // 18.11: 30 кадров в секунду, в лёгком режиме 15
+      if ((tick++ & 1) || document.hidden) return;
       // глава, которая сейчас в середине экрана
       // 18.11 ускорение: положение глав меряем 3 раза в секунду, а не каждый кадр — на телефоне замер каждый кадр
       // заставлял пересчитывать раскладку всей страницы и давал рывки при прокрутке
@@ -913,6 +912,14 @@
     ScrollTrigger.create({ trigger: el, start: 'top bottom', end: 'bottom top', onToggle: st => st.isActive ? tw.play() : tw.pause() });
   });
 
+  /* 18.11 (Игорь: «назад прокручиваешь — сцены тормозят», «Последствия вылезают заторможенно»): по всей странице постоянно
+     крутились мелкие анимации — покачивание карточек, переливы золотых букв, дыхание подсветки, дым первого экрана, — в том
+     числе в главах, которых на экране нет. Браузер пересчитывал их каждый кадр, и на каждый кадр прокрутки оставалось меньше
+     времени. Теперь у глав далеко за экраном (больше полэкрана от края) эти анимации стоят на паузе и оживают заранее,
+     до того как глава появится. */
+  const offIO = new IntersectionObserver(es => es.forEach(e => e.target.classList.toggle('anim-off', !e.isIntersecting)), { rootMargin: '60% 0px' });
+  document.querySelectorAll('main section[data-bg], .ftr').forEach(s => offIO.observe(s));   // главы в переходах обёрнуты ScrollTrigger, поэтому не «main > section»
+
   /* ================================================================
      ЖИВЫЕ КАРТОЧКИ: покачиваются, наклоняются за курсором, по ним бежит блик
   ================================================================ */
@@ -967,6 +974,10 @@
       // 129: ряд «Отзывов» (оценка 5,0 и цитаты) в переходе к «Вопросам» сдвигает влево сам переход. Изгиб писал в тот же
       // transform и перебивал сдвиг — «5,0» дёргался. Этот ряд не гнём.
       .filter(r => !r.matches('.reviews__grid'));
+    // 18.11: гнём только ряды на экране — ряды за экраном раньше тоже перерисовывались каждый кадр прокрутки
+    const rowOn = new Set();
+    const rowIO = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) rowOn.add(e.target); else { rowOn.delete(e.target); e.target.style.transform = ''; } }));
+    rows.forEach(r => rowIO.observe(r));
     let skew = 0, last = 0, lastY = scrollY;
     // 18.11 ускорение: на телефоне ряды не гнём — каждый кадр двигать ряды при прокрутке пальцем слишком дорого
     if (!touch) gsap.ticker.add(() => {
@@ -979,7 +990,7 @@
       const k = Math.round(skew * 1000) / 1000;
       if (k === last) return;
       last = k;
-      rows.forEach(r => { r.style.transform = k ? `skewY(${k}deg)` : ''; });
+      rowOn.forEach(r => { r.style.transform = k ? `skewY(${k}deg)` : ''; });
     });
 
     // кнопки чуть тянутся к курсору

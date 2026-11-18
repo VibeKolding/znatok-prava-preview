@@ -147,14 +147,16 @@
     tl.to(veil, { autoAlpha: 1, ease: 'none', duration: .12 }, 0)
       .fromTo(words, { autoAlpha: 0 }, { autoAlpha: 1, duration: .02, ease: 'none' }, 0)
       .fromTo(wl, { [ax]: () => -D() * .3, opacity: 0 }, { [ax]: 0, opacity: 1, ease: 'power2.out', duration: .16 }, .12)
-      .set([b3, frame], { autoAlpha: 1 }, .3)
-      .to(st, { p: 1, ease: 'power2.inOut', duration: .62, onUpdate: apply }, .3)
-      .to(wl, { [ax]: () => -D() * .62, ease: 'power2.inOut', duration: .62 }, .3)
+      .set([b3, frame], { autoAlpha: 1 }, .26)
+      // 18.11 (Игорь: «Последствия вылезают заторможенно, как будто зависает»): рост главы шёл с очень медленного разгона —
+      // первые полэкрана прокрутки маленькая глава почти стояла на месте. Теперь разгон мягче и рост заметен сразу.
+      .to(st, { p: 1, ease: 'power1.inOut', duration: .62, onUpdate: apply }, .26)
+      .to(wl, { [ax]: () => -D() * .62, ease: 'power1.inOut', duration: .62 }, .26)
       .to(frame, { autoAlpha: 0, duration: .08 }, .86)
       .set(a3, { autoAlpha: 0 }, .99)                       // глава A под листом больше не нужна — не просвечивает по краям листа
       .set([veil, words], { autoAlpha: 0 }, .995);
     if (wr) tl.fromTo(wr, { [ax]: () => D() * .3, opacity: 0 }, { [ax]: 0, opacity: 1, ease: 'power2.out', duration: .16 }, .12)
-              .to(wr, { [ax]: () => D() * .62, ease: 'power2.inOut', duration: .62 }, .3);
+              .to(wr, { [ax]: () => D() * .62, ease: 'power1.inOut', duration: .62 }, .26);
     live = true; if (!b3.classList.contains('tx-open')) apply();
   }
 
@@ -315,14 +317,25 @@
         Object.assign(lR.style, { left: D.x + D.w / 2 + 'px', top: D.y + 'px', width: D.w / 2 + 'px', height: D.h + 'px', borderRadius: `0 ${r}px ${b}px 0` });
         arc.set(D.x, D.x + D.w, D.y);
       };
+      // 18.11 (Игорь: «переход деревянный и прерывистый»): раньше портрет летел, меняя left/top/width/height — браузер каждый кадр
+      // заново раскладывал и перерисовывал карточку с фото и тенью. Теперь карточка один раз ставится на место портрета в главе,
+      // а полёт — только сдвиг и масштаб (transform): их считает видеокарта, кадры не теряются. Проём той же формы, что портрет,
+      // поэтому масштаб одинаковый по ширине и высоте, и скругления уменьшаются вместе с карточкой ровно как раньше.
+      let T0 = null, D0 = null;
+      const box = () => { T0 = target(); D0 = door(T0); const [r, b] = rad(T0, T0.w);
+        Object.assign(card.style, { left: T0.x + 'px', top: T0.y + 'px', width: T0.w + 'px', height: T0.h + 'px', borderRadius: `${r}px ${r}px ${b}px ${b}px`, transformOrigin: '0 0' }); };
       const apply = () => {
-        const T = target(), D = door(T), m = st.move;
-        const x = D.x + (T.x - D.x) * m, y = D.y + (T.y - D.y) * m, w = D.w + (T.w - D.w) * m, h = D.h + (T.h - D.h) * m, [r, b] = rad(T, w);
-        Object.assign(card.style, { left: x + 'px', top: y + 'px', width: w + 'px', height: h + 'px', borderRadius: `${r}px ${r}px ${b}px ${b}px` });
+        if (!T0) box();
+        const m = st.move, s = 1 + (D0.w / T0.w - 1) * (1 - m);
+        const x = (D0.x - T0.x) * (1 - m), y = (D0.y - T0.y) * (1 - m);
+        card.style.transform = `translate3d(${x}px,${y}px,0) scale(${s})`;
       };
-      place(); apply(); ScrollTrigger.addEventListener('refresh', () => { place(); apply(); });
+      place(); box(); apply(); ScrollTrigger.addEventListener('refresh', () => { place(); box(); apply(); });
       gsap.set([ov, doors, arc.el], { autoAlpha: 0 });
-      const tl = gsap.timeline({ scrollTrigger: cfg({ ...common, onUpdate: hold(b4, .88) }) });
+      // 18.11: подложка главы (ровный тёмный фон) раньше гасла по времени после конца перехода, а покрывало под ней исчезало
+      // в последний миг — живой фон и лента «выскакивали». Теперь подложка тает вместе с прокруткой в конце перехода
+      // и так же возвращается при прокрутке назад.
+      const tl = gsap.timeline({ scrollTrigger: cfg({ onUpdate: hold(b4, .88) }) });
       tl.to(veil, { autoAlpha: 1, ease: 'none', duration: .12 }, 0)                       // сначала прошлая глава закрыта
         .fromTo(doors, { autoAlpha: 0, y: 50 }, { autoAlpha: 1, y: 0, ease: 'power2.out', duration: .14 }, .12)
         .fromTo(arc.el, { autoAlpha: 0 }, { autoAlpha: 1, duration: .1 }, .2)
@@ -338,8 +351,12 @@
         .set(fig, { visibility: 'visible' }, .86)
         .set(ov, { autoAlpha: 0 }, .865)
         .set(doors, { autoAlpha: 0 }, .87)
-        .set(a4, { autoAlpha: 0 }, .99)
-        .set(veil, { autoAlpha: 0 }, .995);
+        // глава уже видна целиком, её подложка закрывает экран: прошлая глава и покрывало под ней больше не нужны (их не видно),
+        // убираем их мгновенно, а тает только подложка. Покрывало не гасим плавно: два плавных изменения одного покрывала
+        // при прокрутке назад путались, и сквозь двери просвечивала прошлая глава.
+        .set(a4, { autoAlpha: 0 }, .865)
+        .set(veil, { autoAlpha: 0 }, .87)
+        .fromTo(back, { opacity: 1 }, { opacity: 0, ease: 'power1.inOut', duration: .13, immediateRender: false }, .87);
     }
   }
 
