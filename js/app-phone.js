@@ -3,6 +3,8 @@
 (() => {
   const box = document.querySelector('.appx'); if (!box) return;
   const calls = [...box.querySelectorAll('.appx__call')];
+  const tabs = [...box.querySelectorAll('.appx__tab')], hint = box.querySelector('.appx__hint');
+  const HINTS = calls.map(c => c.querySelector('p').textContent);
   const scrs = [...box.querySelectorAll('.ph-scr')];
   const sec = box.closest('section');
   const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -69,11 +71,19 @@
     const prev = cur; cur = i;
     setTimeout(() => scrs[prev] !== scrs[cur] && scrs[prev].classList.remove('is-out'), 750);
     calls.forEach(c => c.classList.toggle('is-on', +c.dataset.s === i));
+    tabs.forEach(c => c.classList.toggle('is-on', +c.dataset.s === i));
+    if (hint) { hint.classList.add('is-swap'); setTimeout(() => { hint.textContent = HINTS[i]; hint.classList.remove('is-swap'); }, 180); }
     play(i);
   };
   const tick = () => { clearTimeout(timer); if (!visible) return; timer = setTimeout(() => { show((cur + 1) % scrs.length); tick(); }, manual ? Math.max(9000, HOLD[cur]) : HOLD[cur]); };
 
-  calls.forEach(c => c.addEventListener('click', () => { manual = true; show(+c.dataset.s); tick(); }));
+  // 18.11: на телефоне экраны переключают кнопки под телефоном и значки внизу самого приложения
+  [...calls, ...tabs].forEach(c => c.addEventListener('click', () => { manual = true; show(+c.dataset.s); tick(); }));
+  const TABMAP = [0, 0, 1, 3, 2];   // Главная, Моё дело → стадия; Платежи; Чат; Ещё → справка
+  box.querySelector('.phone').addEventListener('click', e => {
+    const t = e.target.closest('.ph-tab'); if (!t) return;
+    manual = true; show(TABMAP[[...t.parentNode.children].indexOf(t)] ?? 0); tick();
+  });
 
   const start = () => {
     if (sec && sec.hasAttribute('data-hold')) return setTimeout(start, 120);

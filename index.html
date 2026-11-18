@@ -16,7 +16,7 @@
 <link rel="stylesheet" href="css/style.css?v=s35">
 <link rel="stylesheet" href="css/wick.css?v=1117s">
 <link rel="stylesheet" href="css/mobile.css?v=s8">
-<link rel="stylesheet" href="css/app-phone.css?v=9">
+<link rel="stylesheet" href="css/app-phone.css?v=10">
 </head>
 <body>
 
@@ -363,6 +363,14 @@
           <button class="appx__call" type="button" data-s="2"><h4>Справка</h4><p>Ответы на вопросы, которые чаще всего тревожат клиентов.</p></button>
           <button class="appx__call" type="button" data-s="3"><h4>Переписка и документы</h4><p>Пишете нам и отправляете документы прямо в приложении.</p></button>
         </div>
+        <!-- 18.11 (Игорь): на телефоне вместо 4 карточек — ряд кнопок под телефоном и одна строка пояснения, чтобы телефон и кнопки были видны вместе -->
+        <div class="appx__tabs" aria-label="Экраны приложения">
+          <button class="appx__tab is-on" type="button" data-s="0">Стадия</button>
+          <button class="appx__tab" type="button" data-s="1">Платежи</button>
+          <button class="appx__tab" type="button" data-s="2">Справка</button>
+          <button class="appx__tab" type="button" data-s="3">Чат</button>
+        </div>
+        <p class="appx__hint" aria-live="polite">На какой стадии сейчас ваше дело.</p>
       </div>
     </div>
     <div class="wrap">
@@ -550,7 +558,7 @@
 <script src="js/transitions.js?v=s17"></script>
 <script src="js/main.js?v=s26"></script>
 <script src="js/wick-live.js?v=s2"></script>
-<script src="js/app-phone.js?v=4"></script>
+<script src="js/app-phone.js?v=5"></script>
 
 </body>
 </html>

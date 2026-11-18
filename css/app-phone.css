@@ -236,3 +236,23 @@
   .appx__orn{width:30px}
   .appx__t1{font-size:29px}.appx__t2{font-size:35px}
 }
+/* 18.11 (Игорь): на телефоне 4 карточки под телефоном не помещались вместе с ним — листаешь к карточке, и верх телефона уходит.
+   Теперь там один ряд кнопок и строка пояснения: телефон, кнопки и пояснение видны на одном экране. На планшете и компьютере — карточки. */
+.appx__tabs,.appx__hint{display:none}
+.ph-scr.is-on{pointer-events:auto}
+.ph-scr.is-on .ph-tab{cursor:pointer;-webkit-tap-highlight-color:transparent}
+@media (max-width:760px){
+  .appx__col{display:none}
+  .phone{margin-bottom:14px}
+  .appx__tabs{grid-column:1/-1;display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:5px;border-radius:999px;
+    border:1px solid rgba(var(--goldr),.28);background:rgba(30,12,10,.55);
+    opacity:0;transform:translateY(16px);transition:opacity .8s ease .35s,transform .9s cubic-bezier(.2,.8,.2,1) .35s}
+  .appx__tab{border:0;background:none;font:inherit;font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);
+    padding:11px 2px;border-radius:999px;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:color .4s,background .4s,box-shadow .4s}
+  .appx__tab.is-on{color:#1A0A08;background:linear-gradient(180deg,#F6DFA4,#C9A060);box-shadow:0 0 18px rgba(232,196,138,.35)}
+  .appx__hint{grid-column:1/-1;display:block;text-align:center;font-size:14.5px;line-height:1.45;color:var(--text);min-height:2.9em;margin-top:4px;
+    opacity:0;transition:opacity .8s ease .5s}
+  .appx__hint.is-swap{opacity:0!important;transition:opacity .18s}
+  .appx.is-in .appx__tabs{opacity:1;transform:none}
+  .appx.is-in .appx__hint{opacity:1;transition:opacity .3s}
+}
