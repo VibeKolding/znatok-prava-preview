@@ -189,3 +189,18 @@
 @keyframes wkMist{from{transform:translate3d(0,0,0)}to{transform:translate3d(-50%,0,0)}}
 .wk-paused .wk-mist i{animation-play-state:paused}
 @media (prefers-reduced-motion:reduce){.wk-mist i{animation:none}}
+
+/* ===== 19.11: НОЧНОЙ СИНИЙ вместо красного — утвердил Нурлан (вариант 5, «Фон главной — ещё 5 вариантов», 18.11) =====
+   Красный показался Нурлану опасным для клиента. Фон, дым и отражение перекрашены тем же фильтром, что на утверждённой картинке
+   (hue=h=228:s=0.6, brightness -0.01): файлы *-night.webp. Красные цвета ниже переведены тем же фильтром.
+   Прежние файлы — в папке «_цвет до ночного синего (19.11)». Нурлан (wick2-nurlan-burg) не перекрашен — как на утверждённой картинке. */
+:root{--wk-fill:#0D3060;--wk-wall:10,46,95;--wk-hot:19,72,141;--wk-deep:5,29,62;--wk-fb1:#000A14;--wk-fb2:#00040C;--wk-fb3:#000104;--wk-fb4:#000001}
+.hero--wick{background:#000000}
+.wk-wall{background:linear-gradient(180deg,#000000 0%,#000001 12%,#000003 30%,#000104 50%,#000209 66%,#00030A 80.2%,#000006 85%,#000001 100%)}
+.wk-floorband{background:linear-gradient(180deg,#000209 0%,#000005 25%,#000001 60%,#000000 100%)}
+.wk-glow{background:
+    radial-gradient(34% 16% at 50% 78%,rgba(19,66,128,.45) 0%,rgba(10,46,95,.16) 55%,transparent 80%),
+    radial-gradient(24% 22% at 30% 62%,rgba(10,46,95,.30) 0%,transparent 75%),
+    radial-gradient(22% 20% at 72% 58%,rgba(10,46,95,.26) 0%,transparent 75%)}
+.wk-fog__a{background-image:url(../img/fog-7-night.webp)}
+.wk-fog__b,.wk-mist i{background-image:url(../img/fog-19-night.webp)}
