@@ -955,3 +955,10 @@ button,input{font:inherit;color:inherit}
 @media (max-width:760px){.quiz__hint{font-size:14.5px;margin:-12px 0 20px}}
 /* 18.11: у глав далеко за экраном фоновые анимации на паузе (класс ставит main.js) — браузер не пересчитывает их каждый кадр */
 .anim-off,.anim-off *,.anim-off *::before,.anim-off *::after{animation-play-state:paused!important}
+
+/* 19.11: реквизиты в подвале по выписке ЕГРЮЛ — адреса длинные, переносятся внутри своего столбца */
+.ftr__req{max-width:300px;line-height:1.45}
+.ftr__req li{white-space:normal!important}
+
+/* 19.11: вопросы — без синей/серой вспышки при нажатии на телефоне */
+.acc summary{-webkit-tap-highlight-color:transparent}

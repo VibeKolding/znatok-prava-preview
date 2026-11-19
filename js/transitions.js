@@ -41,7 +41,28 @@
   if (quiz && window.ResizeObserver) { let h = 0, t; new ResizeObserver(([e]) => { const nh = Math.round(e.contentRect.height); if (h && nh !== h) { clearTimeout(t); t = setTimeout(() => ScrollTrigger.refresh(), 150); } h = nh; }).observe(quiz); }
   // 129: ответы в «Вопросах и ответах» раскрываются внутри главы, которая стоит в переходе: её высоту ScrollTrigger
   // запомнил, и раскрытые ответы вылезали вниз под главу «Связаться» (их не было видно). После раскрытия пересчитываем.
-  { let t; document.addEventListener('toggle', e => { if (e.target.closest && e.target.closest('.tx-a, .tx-b')) { clearTimeout(t); t = setTimeout(() => ScrollTrigger.refresh(), 60); } }, true); }
+  // 19.11 (Игорь: «нажимаешь на вопрос — сайт дёргается, меняется прям картинкой»): ответ открывался сразу, а пересчёт шёл
+  // через 60 мс — несколько кадров ответ налезал на нижние вопросы, потом дым перехода к «Цене» прыгал на новое место.
+  // Теперь открываем ответ сами и пересчитываем в том же кадре: ответ, сдвиг ниже и дым меняются одновременно; текст ответа проявляется.
+  let synced = null;
+  document.addEventListener('click', e => {
+    const s = e.target.closest && e.target.closest('summary'), d = s && s.parentElement;
+    if (!d || d.tagName !== 'DETAILS' || !d.closest('.tx-a, .tx-b')) return;
+    e.preventDefault();
+    // дым к «Цене» едет в ~5 раз быстрее прокрутки: сдвиг на высоту ответа уносил его скачком. Старый дым тает, новый проявляется
+    const fog = document.querySelector('.tx-smoke');
+    const ghost = fog && getComputedStyle(fog).visibility !== 'hidden' ? fog.cloneNode(true) : null;
+    if (ghost) fog.after(ghost);
+    synced = d; d.open = !d.open; ScrollTrigger.refresh();
+    if (ghost) {
+      gsap.to(ghost, { opacity: 0, duration: .5, ease: 'power1.out', onComplete: () => ghost.remove() });
+      gsap.from(fog.children, { opacity: 0, duration: .5, ease: 'power1.out', clearProps: 'opacity' });
+    }
+    const p = d.open && d.querySelector('p');
+    if (p) gsap.fromTo(p, { opacity: 0, y: -6 }, { opacity: 1, y: 0, duration: .35, ease: 'power2.out', clearProps: 'transform,opacity' });
+  }, true);
+  // открыли не нажатием (поиск по странице и т. п.) — пересчитываем как раньше
+  { let t; document.addEventListener('toggle', e => { if (e.target === synced) { synced = null; return; } if (e.target.closest && e.target.closest('.tx-a, .tx-b')) { clearTimeout(t); t = setTimeout(() => ScrollTrigger.refresh(), 60); } }, true); }
   const H = () => VH(), W = () => innerWidth;
   // 18.11 (Игорь: «на телефоне переходы дёргаются, на компьютере плавные»): на компьютере прокрутку сглаживает Lenis,
   // а на iPhone прокручивает сам телефон и шлёт положение неровно — сцена прыгала шагами. На сенсорном экране сцена
