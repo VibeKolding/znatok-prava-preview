@@ -88,7 +88,9 @@
   function shatterIn(el, o) {
     const dpr = DPR(), f = frame(el, o.pad), fs = f.fs, W = f.W, H = f.H;
     const img = paint(el, f, dpr, true), ictx = img.getContext('2d');
+    // 19.11: два холста — летящие осколки и поверх них «уже на месте» (он перерисовывается, только когда долетел осколок)
     const cv = overlay(el, f); cv.width = img.width; cv.height = img.height;
+    const solid = overlay(el, f); solid.width = img.width; solid.height = img.height;
     const ctx = cv.getContext('2d');
     const iw = img.width, ih = img.height, data = ictx.getImageData(0, 0, iw, ih).data;
     // есть ли в треугольнике хоть кусочек буквы — проверяем все его точки с шагом 2 (иначе мелкие хвостики букв теряются)
@@ -132,7 +134,29 @@
     // слой «уже на месте»: маска из долетевших осколков, сквозь неё — цельный текст (без швов)
     const mask = document.createElement('canvas'); mask.width = iw; mask.height = ih;
     const mctx = mask.getContext('2d'); mctx.setTransform(dpr, 0, 0, dpr, 0, 0); mctx.fillStyle = mctx.strokeStyle = '#fff'; mctx.lineWidth = 1.5; mctx.lineJoin = 'round';
-    const solid = document.createElement('canvas'); solid.width = iw; solid.height = ih; const sctx = solid.getContext('2d');
+    const sctx = solid.getContext('2d');
+    // 19.11 (заминка в «Узнаёте себя» / «Последствия» на телефоне): раньше каждый кадр ~500 раз рисовался весь заголовок
+    // через треугольную маску. Теперь каждый осколок один раз вырезается в общий лист, а в кадре рисуется только его кусочек.
+    let ax = 0, ay = 0, rowH = 0; const AW = Math.min(2048, Math.max(256, iw));
+    for (const q of shards) {
+      const xs = q.pts.map(t => t[0] * dpr), ys = q.pts.map(t => t[1] * dpr);
+      q.bx = Math.floor(Math.min(...xs)) - 1; q.by = Math.floor(Math.min(...ys)) - 1;
+      q.bw = Math.ceil(Math.max(...xs)) + 1 - q.bx; q.bh = Math.ceil(Math.max(...ys)) + 1 - q.by;
+      if (ax + q.bw > AW) { ax = 0; ay += rowH + 1; rowH = 0; }
+      q.ax = ax; q.ay = ay; ax += q.bw + 1; rowH = Math.max(rowH, q.bh);
+    }
+    const atlas = document.createElement('canvas'); atlas.width = AW; atlas.height = Math.max(1, ay + rowH + 1);
+    const actx = atlas.getContext('2d');
+    // вырезаем осколок перед его первым кадром — работа размазана по всему полёту, а не одним длинным кадром в начале
+    const bake = q => {
+      q.baked = true;
+      const ox = q.ax - q.bx, oy = q.ay - q.by;
+      actx.save(); actx.beginPath();
+      actx.moveTo(q.pts[0][0] * dpr + ox, q.pts[0][1] * dpr + oy); actx.lineTo(q.pts[1][0] * dpr + ox, q.pts[1][1] * dpr + oy); actx.lineTo(q.pts[2][0] * dpr + ox, q.pts[2][1] * dpr + oy);
+      actx.closePath(); actx.clip();
+      actx.drawImage(img, q.bx, q.by, q.bw, q.bh, q.ax, q.ay, q.bw, q.bh);
+      actx.restore();
+    };
     const ease = x => 1 - Math.pow(1 - x, 3);
     let t0 = 0, left = shards.length;
     const tick = ts => {
@@ -150,22 +174,20 @@
           continue;
         }
         if (p <= 0) continue;
-        const e = ease(p), k = 1 - e;
-        ctx.save();
+        if (!q.baked) bake(q);
+        const e = ease(p), k = 1 - e, a = q.r * k, c = Math.cos(a), sn = Math.sin(a);
         ctx.globalAlpha = Math.min(1, p * 2.2);
-        ctx.translate(q.cx + q.dx * k, q.cy + q.dy * k); ctx.rotate(q.r * k);
-        ctx.beginPath(); ctx.moveTo(q.v[0][0], q.v[0][1]); ctx.lineTo(q.v[1][0], q.v[1][1]); ctx.lineTo(q.v[2][0], q.v[2][1]); ctx.closePath();
-        ctx.clip(); ctx.drawImage(img, -q.cx, -q.cy, W, H);
-        ctx.restore();
+        ctx.setTransform(c, sn, -sn, c, (q.cx + q.dx * k) * dpr, (q.cy + q.dy * k) * dpr);
+        ctx.drawImage(atlas, q.ax, q.ay, q.bw, q.bh, q.bx - q.cx * dpr, q.by - q.cy * dpr, q.bw, q.bh);
       }
+      ctx.globalAlpha = 1;
       if (arrived) {
         sctx.globalCompositeOperation = 'copy'; sctx.drawImage(mask, 0, 0);
         sctx.globalCompositeOperation = 'source-in'; sctx.drawImage(img, 0, 0);
       }
-      ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.drawImage(solid, 0, 0);
       if (left > 0) return requestAnimationFrame(tick);
       // всё на месте: холст = текст один в один, тихо меняем на настоящий текст в том же кадре
-      el.classList.remove('fxh'); cv.remove();
+      el.classList.remove('fxh'); cv.remove(); solid.remove();
     };
     requestAnimationFrame(tick);
   }

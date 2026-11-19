@@ -584,14 +584,15 @@
   }
   function burnIn(el) {
     if (!sprites) sprites = [1, 2, 3, 4].map(noiseSprite);
-    const st = { b: 0, el, done: false };
+    // 19.11: место плашки меряем один раз (раньше — каждый кадр, это пересчёт раскладки страницы в каждом кадре)
+    const st = { b: 0, el, done: false, r: local(el) };
     burns.push(st);
     el.classList.add('is-burning');
     gsap.set(el, { opacity: 1, '--burn': 0 });
     gsap.to(st, { b: 1, duration: .9, ease: 'power1.inOut',
       onUpdate: () => el.style.setProperty('--burn', st.b),
       onComplete: () => { st.done = true; el.classList.remove('is-burning'); el.style.removeProperty('--burn');
-        const r = local(el); for (let i = 0, n = phone() ? 4 : 10; i < n; i++) addSmoke(r.x + Math.random() * r.w, r.y + Math.random() * 30, true); } });
+        const r = st.r; for (let i = 0, n = phone() ? 4 : 10; i < n; i++) addSmoke(r.x + Math.random() * r.w, r.y + Math.random() * 30, true); } });
     if (!smokeRun) { smokeRun = true; last = performance.now(); requestAnimationFrame(stepSmoke); }
   }
   let last = 0;
@@ -602,7 +603,7 @@
     // огненная кромка и новые частицы с неё
     burns = burns.filter(st => !st.done);
     for (const st of burns) {
-      const r = local(st.el), ey = r.y + r.h * (1 - st.b), x0 = r.x + 14, x1 = r.x + r.w - 14;
+      const r = st.r, ey = r.y + r.h * (1 - st.b), x0 = r.x + 14, x1 = r.x + r.w - 14;
       for (let i = 0, n = phone() ? 1 : 3; i < n; i++) addSmoke(x0 + Math.random() * (x1 - x0), ey, false);   // на телефоне клубов меньше и они мельче — плашки там вдвое уже
       if (Math.random() < .9) addEmber(x0 + Math.random() * (x1 - x0), ey);
       if (Math.random() < .5) addAsh(x0 + Math.random() * (x1 - x0), ey);
